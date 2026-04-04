@@ -7,6 +7,22 @@ window.addEventListener('scroll', () => {
 }, { passive: true });
 
 // =====================
+// BOTÃO FLUTUANTE FIXO
+// =====================
+const stickyCta = document.getElementById('stickyCta');
+const heroSection = document.getElementById('home');
+const ctaFinal = document.getElementById('cta-final');
+
+if (stickyCta && heroSection) {
+  window.addEventListener('scroll', () => {
+    const heroBottom = heroSection.getBoundingClientRect().bottom;
+    const ctaTop = ctaFinal ? ctaFinal.getBoundingClientRect().top : Infinity;
+    const show = heroBottom < 0 && ctaTop > window.innerHeight;
+    stickyCta.classList.toggle('visible', show);
+  }, { passive: true });
+}
+
+// =====================
 // PILAR SHELLS — observer com remoção de delay após reveal
 // =====================
 const pilarShells = document.querySelectorAll('.pilar-shell');
