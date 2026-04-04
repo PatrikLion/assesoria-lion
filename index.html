@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lion Mídias — Sistema Comercial Previsível</title>
+  <meta name="description" content="Implementamos um Sistema Comercial de ponta a ponta que conecta seu Marketing ao time de Vendas e transforma demanda em faturamento previsível.">
+  <meta property="og:title" content="Lion Mídias — Sistema Comercial Previsível">
+  <meta property="og:description" content="Método validado em mais de 100 empresas em todo o Brasil.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- GRAIN OVERLAY -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- NAV FLUTUANTE -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-pill">
+      <div class="nav-logo">
+        <img src="assets/logolion.png" alt="Lion Mídias" class="logo-img"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <span class="logo-text" style="display:none">Lion Mídias</span>
+      </div>
+      <a href="#cta-final" class="nav-cta">
+        <span>Diagnóstico Gratuito</span>
+        <span class="nav-cta-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ═══════════ HERO (sem foto, centralizado) ═══════════ -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="hero-orb hero-orb-1"></div>
+      <div class="hero-orb hero-orb-2"></div>
+      <div class="hero-orb hero-orb-3"></div>
+      <div class="hero-grid"></div>
+      <div class="hero-lines" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="hero-content">
+        <span class="tag hero-tag">Sistema Comercial Previsível</span>
+
+        <h1 class="hero-headline">
+          Chega de vender
+          <span class="gold italic-word">por sorte.</span>
+          Construa uma operação
+          que vende <span class="gold">por processo.</span>
+        </h1>
+
+        <p class="hero-sub">
+          Implementamos um Sistema Comercial de ponta a ponta — conecta Marketing ao time de Vendas
+          e transforma demanda em faturamento previsível. Validado em +100 empresas no Brasil.
+        </p>
+
+        <div class="hero-cta-group">
+          <a href="#cta-final" class="btn-primary btn-large">
+            <span>Quero meu Diagnóstico Gratuito</span>
+            <span class="btn-arrow">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </a>
+          <p class="disclaimer">Apenas para empresas com faturamento acima de R$100k/mês.</p>
+        </div>
+
+        <!-- Mini stats inline -->
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-num">100+</span>
+            <span class="hero-stat-label">Empresas atendidas</span>
+          </div>
+          <div class="hero-stat-sep"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">3+</span>
+            <span class="hero-stat-label">Anos de método</span>
+          </div>
+          <div class="hero-stat-sep"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">4.400+</span>
+            <span class="hero-stat-label">Vendas geradas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ LOGOS CARROSSEL ═══════════ -->
+  <section class="logos-section">
+    <p class="logos-label">Empresas que confiam no método</p>
+    <div class="logos-track-wrap">
+      <div class="logos-fade-left"></div>
+      <div class="logos-fade-right"></div>
+      <div class="logos-track" id="logosTrack">
+        <div class="logos-slide">
+          <img src="assets/logo1.png" alt="Parceiro 1" class="logo-client">
+          <img src="assets/logo2.png" alt="Parceiro 2" class="logo-client">
+          <img src="assets/logo3.png" alt="Parceiro 3" class="logo-client">
+          <img src="assets/logo4.png" alt="Parceiro 4" class="logo-client">
+          <img src="assets/logo5.png" alt="Parceiro 5" class="logo-client">
+          <img src="assets/logo6.png" alt="Parceiro 6" class="logo-client">
+        </div>
+        <div class="logos-slide" aria-hidden="true">
+          <img src="assets/logo1.png" alt="" class="logo-client">
+          <img src="assets/logo2.png" alt="" class="logo-client">
+          <img src="assets/logo3.png" alt="" class="logo-client">
+          <img src="assets/logo4.png" alt="" class="logo-client">
+          <img src="assets/logo5.png" alt="" class="logo-client">
+          <img src="assets/logo6.png" alt="" class="logo-client">
+        </div>
+        <div class="logos-slide" aria-hidden="true">
+          <img src="assets/logo1.png" alt="" class="logo-client">
+          <img src="assets/logo2.png" alt="" class="logo-client">
+          <img src="assets/logo3.png" alt="" class="logo-client">
+          <img src="assets/logo4.png" alt="" class="logo-client">
+          <img src="assets/logo5.png" alt="" class="logo-client">
+          <img src="assets/logo6.png" alt="" class="logo-client">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PROBLEMA ═══════════ -->
+  <section class="section problema-section">
+    <div class="container two-col">
+      <div class="col-text">
+        <span class="tag">O diagnóstico que ninguém quer ouvir</span>
+        <h2>Você fatura bem. Mas sente que está <span class="gold">deixando dinheiro na mesa.</span></h2>
+        <p>Empresas com grande potencial raramente perdem por falta de produto. Elas perdem porque o lead passa pelo time e vai embora sem fechar — ou fecha sem margem.</p>
+        <p>O problema não é o que você vende. É como sua operação processa cada oportunidade.</p>
+        <ul class="problem-list">
+          <li>
+            <span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            Leads qualificados que somem no funil sem resposta estruturada
+          </li>
+          <li>
+            <span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            Margem que desaparece na negociação
+          </li>
+          <li>
+            <span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            Time que depende do dono para fechar qualquer coisa
+          </li>
+          <li>
+            <span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+            Meses seguidos sem previsibilidade, sem processo
+          </li>
+        </ul>
+      </div>
+      <div class="col-visual">
+        <div class="funil-shell">
+          <img src="assets/funil.png.png" alt="Funil com vazamento — leads chegam, passam pelo time, vazam e fecham sem margem" class="funil-img">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ CAUSA RAIZ ═══════════ -->
+  <section class="section causa-section">
+    <div class="container">
+      <div class="causa-inner">
+        <span class="tag">A verdade sobre crescimento</span>
+        <h2>O problema não é o seu marketing.<br>É a <span class="gold">desconexão</span> entre o que o marketing entrega e o que o comercial fecha.</h2>
+        <p>O mercado está cheio de soluções parciais: agências que entregam cliques sem saber o que acontece depois, e treinamentos desconectados da realidade do seu funil.</p>
+        <p>Marketing e Comercial são uma coisa só. Quando prospecção, qualificação e fechamento funcionam como sistema integrado — você cresce de forma previsível.</p>
+        <div class="causa-blocks">
+          <div class="causa-block red">
+            <h4>Solução Parcial</h4>
+            <p>Marketing gera cliques. Vendas treina. Os dois não se falam.</p>
+          </div>
+          <div class="causa-arrow">→</div>
+          <div class="causa-block gold-block">
+            <h4>Sistema Integrado</h4>
+            <p>Prospecção, qualificação e fechamento como um único sistema.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PILARES ═══════════ -->
+  <section class="section solucao-section">
+    <div class="container">
+      <span class="tag">O método</span>
+      <h2>A Implementação do <span class="gold">Sistema Comercial Previsível.</span></h2>
+      <p class="section-sub">Não é consultoria superficial. É implementação prática — 3 pilares que sustentam crescimento real.</p>
+      <div class="pilares-grid">
+
+        <div class="pilar-shell" style="--delay: 0ms">
+          <div class="pilar-card">
+            <div class="pilar-number">01</div>
+            <h3>Marketing e Geração de Demanda</h3>
+            <p>Estruturamos o marketing para alimentar o comercial com demanda de qualidade. Cadências de prospecção ativa, social selling e distribuição de conteúdo estratégico.</p>
+          </div>
+        </div>
+
+        <div class="pilar-shell" style="--delay: 100ms">
+          <div class="pilar-card">
+            <div class="pilar-number">02</div>
+            <h3>Estruturação do Processo Comercial</h3>
+            <p>CRM configurado, scripts validados, playbooks e rotina de SDR. Sua operação para de depender da intuição e passa a rodar por processo.</p>
+          </div>
+        </div>
+
+        <div class="pilar-shell" style="--delay: 200ms">
+          <div class="pilar-card">
+            <div class="pilar-number">03</div>
+            <h3>Treinamento e Cultura Comercial</h3>
+            <p>Treinamos vendedores e gestores: abordagem, qualificação, objeções e fechamento. 80% do resultado está no treinamento. O resto é ferramenta.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ ENTREGA ═══════════ -->
+  <section class="section entrega-section">
+    <div class="container">
+      <h2>O que está incluído na <span class="gold">implementação.</span></h2>
+      <div class="entrega-grid">
+        <div class="entrega-item reveal" style="--delay: 0ms">
+          <span class="check-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8l4 4L13.5 4" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div><strong>CRM Estruturado e Otimizado</strong><p>pipeline e etapas do seu funil real</p></div>
+        </div>
+        <div class="entrega-item reveal" style="--delay: 60ms">
+          <span class="check-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8l4 4L13.5 4" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div><strong>Playbook Comercial</strong><p>personalizado para o seu negócio e time</p></div>
+        </div>
+        <div class="entrega-item reveal" style="--delay: 120ms">
+          <span class="check-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8l4 4L13.5 4" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div><strong>Scripts de Vendas de alta conversão</strong><p>DM, ligação, objeções e WhatsApp</p></div>
+        </div>
+        <div class="entrega-item reveal" style="--delay: 180ms">
+          <span class="check-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8l4 4L13.5 4" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div><strong>Cadência de Prospecção Ativa</strong><p>com SDR estruturado</p></div>
+        </div>
+        <div class="entrega-item reveal" style="--delay: 240ms">
+          <span class="check-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8l4 4L13.5 4" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div><strong>Dashboards e Indicadores</strong><p>de performance para gestão</p></div>
+        </div>
+        <div class="entrega-item reveal" style="--delay: 300ms">
+          <span class="check-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2.5 8l4 4L13.5 4" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <div><strong>Acompanhamento e execução prática</strong><p>não só teoria</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PARA QUEM É ═══════════ -->
+  <section class="section fit-section">
+    <div class="container">
+      <h2>Seletividade é <span class="gold">parte do método.</span></h2>
+      <div class="fit-grid">
+        <div class="fit-card fit-yes">
+          <h3>É para você que...</h3>
+          <ul>
+            <li><span class="yes-icon"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3L11 3" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Fatura acima de R$100 mil por mês</li>
+            <li><span class="yes-icon"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3L11 3" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Tem 2 ou mais vendedores ativos</li>
+            <li><span class="yes-icon"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3L11 3" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Já tem equipe ou estrutura de marketing</li>
+            <li><span class="yes-icon"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3L11 3" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Quer previsibilidade e parar de depender de sorte</li>
+            <li><span class="yes-icon"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 6.5l3 3L11 3" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Busca uma operação que funcione sem depender do dono</li>
+          </ul>
+        </div>
+        <div class="fit-card fit-no">
+          <h3>Não é para você se...</h3>
+          <ul>
+            <li><span class="no-icon"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 2l9 9M11 2L2 11" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>Ainda não tem time comercial formado</li>
+            <li><span class="no-icon"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 2l9 9M11 2L2 11" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>Não tem demanda mínima para trabalhar</li>
+            <li><span class="no-icon"><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 2l9 9M11 2L2 11" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>Não está pronto para investir em estruturar crescimento</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ SOBRE PATRIK ═══════════ -->
+  <section class="section sobre-section">
+    <div class="container two-col">
+      <div class="col-visual">
+        <div class="patrik-shell">
+          <div class="patrik-core">
+            <img src="assets/foto%20do%20patrik.png" alt="Patrik Pereira Cardoso" class="patrik-sobre" onerror="this.style.display='none'">
+            <div class="patrik-fade"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-text">
+        <span class="tag">Quem vai implementar</span>
+        <h2><span class="gold">Patrik Pereira Cardoso.</span><br>Especialista em gestão de vendas e marketing.</h2>
+        <p>Nos últimos 3 anos, Patrik ajudou mais de 100 empresas a saírem do improviso e construírem operações comerciais previsíveis — com processo, time treinado e resultado mensurável.</p>
+        <p>Seu método não veio de teoria. Veio de implementação real: falta de processo, time despreparado, margem comprimida, dependência do dono.</p>
+        <p>A metodologia conecta prospecção ativa, social selling e estruturação comercial em um único sistema, validado em todo o Brasil.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ DEPOIMENTOS — CARROSSEL INFINITO ═══════════ -->
+  <section class="section depoimentos-section">
+    <div class="container">
+      <h2>O que nossos clientes <span class="gold">dizem.</span></h2>
+    </div>
+
+    <div class="dep-marquee-wrap">
+      <div class="dep-fade-left"></div>
+      <div class="dep-fade-right"></div>
+
+      <!-- Linha 1: scroll para esquerda — somente fotos -->
+      <div class="dep-track dep-track--left" id="depTrack1">
+
+        <!-- ── SET 1 ── -->
+        <div class="dep-photo-shell">
+          <div class="dep-photo-card">
+            <img src="assets/DEPOIMENTO%2001.jpeg" alt="Depoimento 01">
+          </div>
+        </div>
+        <div class="dep-photo-shell">
+          <div class="dep-photo-card">
+            <img src="assets/DEPOIMENTO%2002.jpeg" alt="Depoimento 02">
+          </div>
+        </div>
+        <div class="dep-photo-shell">
+          <div class="dep-photo-card">
+            <img src="assets/DEPOIMENTO%2003.jpeg" alt="Depoimento 03">
+          </div>
+        </div>
+        <div class="dep-photo-shell">
+          <div class="dep-photo-card">
+            <img src="assets/DEPOIMENTO%2004.jpeg" alt="Depoimento 04">
+          </div>
+        </div>
+        <div class="dep-photo-shell">
+          <div class="dep-photo-card">
+            <img src="assets/DEPOIMENTO%2005.jpeg" alt="Depoimento 05">
+          </div>
+        </div>
+        <div class="dep-photo-shell">
+          <div class="dep-photo-card">
+            <img src="assets/DEPOIMENTO%2006.jpeg" alt="Depoimento 06">
+          </div>
+        </div>
+
+        <!-- ── SET 2 (duplicado para loop infinito) ── -->
+        <div class="dep-photo-shell" aria-hidden="true">
+          <div class="dep-photo-card">
+            <img src="assets/DEPOIMENTO%2001.jpeg" alt="">
+          </div>
+        </div>
+        <div class="dep-photo-shell" aria-hidden="true">
+          <div class="dep-photo-card">
+            <img src="assets/DEPOIMENTO%2002.jpeg" alt="">
+          </div>
+        </div>
+        <div class="dep-photo-shell" aria-hidden="true">
+          <div class="dep-photo-card">
+            <img src="assets/DEPOIMENTO%2003.jpeg" alt="">
+          </div>
+        </div>
+        <div class="dep-photo-shell" aria-hidden="true">
+          <div class="dep-photo-card">
+            <img src="assets/DEPOIMENTO%2004.jpeg" alt="">
+          </div>
+        </div>
+        <div class="dep-photo-shell" aria-hidden="true">
+          <div class="dep-photo-card">
+            <img src="assets/DEPOIMENTO%2005.jpeg" alt="">
+          </div>
+        </div>
+        <div class="dep-photo-shell" aria-hidden="true">
+          <div class="dep-photo-card">
+            <img src="assets/DEPOIMENTO%2006.jpeg" alt="">
+          </div>
+        </div>
+
+      </div><!-- /dep-track--left -->
+    </div><!-- /dep-marquee-wrap -->
+  </section>
+
+  <!-- ═══════════ GARANTIA ═══════════ -->
+  <section class="section garantia-section">
+    <div class="container">
+      <div class="garantia-shell">
+        <div class="garantia-core">
+          <div class="garantia-badge">
+            <span class="garantia-num">30</span>
+            <small>dias</small>
+          </div>
+          <div class="garantia-text">
+            <span class="tag">Risco zero</span>
+            <h2>Sua decisão <span class="gold">protegida.</span><br>Garantia de 30 dias.</h2>
+            <p>Trabalhamos 30 dias na implementação. Se ao final desse primeiro mês você não estiver satisfeito, devolvemos 100% do investimento.</p>
+            <p><strong>O risco é nosso. A decisão é sua.</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ CTA FINAL ═══════════ -->
+  <section class="section cta-final-section" id="cta-final">
+    <div class="container">
+      <div class="cta-final-inner">
+        <div class="cta-glow"></div>
+        <div class="cta-glow-2"></div>
+        <h2>Sua operação pode continuar<br>no improviso.</h2>
+        <p class="cta-or">Ou você pode construir uma <span class="gold">máquina de vendas previsível</span> hoje.</p>
+        <p class="cta-sub">Diagnóstico gratuito. Sem compromisso. Sem enrolação.</p>
+        <a href="https://wa.me/55SEUNUMERO" class="btn-primary btn-large" target="_blank" rel="noopener noreferrer">
+          <span>Agendar meu Diagnóstico Gratuito</span>
+          <span class="btn-arrow">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M3 9h12M10 4l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FAQ ═══════════ -->
+  <section class="section faq-section">
+    <div class="container">
+      <h2>Perguntas <span class="gold">frequentes.</span></h2>
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>Já fiz treinamento e não resolveu.</span>
+            <span class="faq-icon">
+              <svg class="icon-plus" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <svg class="icon-minus" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>Treinamento sem processo não sustenta resultado. O que fazemos é diferente: implementamos o processo junto com o treinamento, dentro da sua operação, com acompanhamento ativo.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>Meu time não aplica o que aprende.</span>
+            <span class="faq-icon">
+              <svg class="icon-plus" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <svg class="icon-minus" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>Esse é exatamente o sintoma de falta de processo. Quando existe rotina, cadência e gestão de indicadores, a aplicação deixa de depender da motivação do vendedor.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>Meu problema é lead ruim.</span>
+            <span class="faq-icon">
+              <svg class="icon-plus" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <svg class="icon-minus" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>Na maioria dos casos, o lead não é ruim. O processo de qualificação e abordagem é que não está estruturado. É isso que diagnosticamos antes de qualquer implementação.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>E se meu negócio for muito específico?</span>
+            <span class="faq-icon">
+              <svg class="icon-plus" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <svg class="icon-minus" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>O método foi validado em segmentos distintos. O processo comercial tem fundamentos universais — o que muda é a adaptação à realidade do seu time e do seu cliente.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            <span>Agora não é hora de investir.</span>
+            <span class="faq-icon">
+              <svg class="icon-plus" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <svg class="icon-minus" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </span>
+          </button>
+          <div class="faq-answer">
+            <p>Se a sua operação está no improviso hoje, cada mês sem estrutura é dinheiro e oportunidade perdida. O custo de não estruturar costuma ser maior do que o custo da implementação.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-logo">
+          <img src="assets/logolion.png" alt="Lion Mídias" class="logo-img"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          <span class="logo-text" style="display:none">Lion Mídias</span>
+        </div>
+        <p class="footer-copy">© 2026 Lion Mídias. Todos os direitos reservados.</p>
+        <p class="footer-sub">Especialistas em Gestão de Vendas e Marketing.</p>
+        <div class="footer-links">
+          <a href="#" class="footer-link">Política de Privacidade</a>
+          <a href="#" class="footer-link">Termos de Uso</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
