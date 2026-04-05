@@ -174,6 +174,13 @@ document.getElementById('modalForm').addEventListener('submit', async function (
   } finally {
     btn.classList.remove('loading');
     btn.disabled = false;
+    // Dispara evento Lead no Meta Pixel
+    if (typeof fbq === 'function') {
+      fbq('track', 'Lead', {
+        content_name: 'Diagnóstico Gratuito',
+        content_category: 'Formulário',
+      });
+    }
     window.open(waURL, '_blank');
     document.getElementById('modalForm').style.display = 'none';
     document.getElementById('modalSuccess').classList.add('show');
