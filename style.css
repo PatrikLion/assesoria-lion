@@ -334,9 +334,123 @@ ul  { list-style: none; }
 }
 
 /* =====================
-   PROBLEMA
+   PROBLEMA — SCROLL VIDEO
 ===================== */
-.problema-section { background: var(--bg); }
+
+/* ── DESKTOP: wrapper com altura 300vh ── */
+@media (min-width: 768px) {
+
+  .problema-scroll-wrap {
+    position: relative;
+    height: 300vh;
+    background: var(--bg);
+  }
+
+  .problema-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  /* Gradiente overlay esquerda → direita */
+  .problema-gradient-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(
+      to right,
+      rgba(7, 17, 29, 0.88) 0%,
+      rgba(7, 17, 29, 0.55) 45%,
+      rgba(7, 17, 29, 0.15) 100%
+    );
+  }
+
+  /* Lado esquerdo — texto */
+  .problema-text-side {
+    position: relative;
+    z-index: 3;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    padding: 80px 0 80px 0;
+  }
+
+  .problema-text-inner {
+    padding: 0 48px 0 max(48px, calc((100vw - 1100px) / 2 + 24px));
+    max-width: 580px;
+  }
+
+  /* Lado direito — vídeo */
+  .problema-video-side {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .problema-video {
+    width: 55%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: drop-shadow(-40px 0 80px rgba(0,0,0,.6));
+  }
+
+  /* Esconde imagem fallback no desktop */
+  .problema-img-mobile { display: none; }
+}
+
+/* ── MOBILE: layout normal empilhado ── */
+@media (max-width: 767px) {
+
+  .problema-scroll-wrap {
+    background: var(--bg);
+    padding: 60px 0;
+  }
+
+  .problema-sticky {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 0 24px;
+  }
+
+  .problema-gradient-overlay { display: none; }
+
+  .problema-text-side {
+    width: 100%;
+  }
+
+  .problema-text-inner {
+    padding: 0;
+  }
+
+  .problema-video-side {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Esconde vídeo no mobile — usa imagem */
+  .problema-video { display: none; }
+
+  .problema-img-mobile {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 24px 48px rgba(201,168,76,.12));
+  }
+}
 
 .col-text h2 {
   font-size: clamp(28px, 4vw, 44px);

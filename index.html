@@ -133,40 +133,64 @@
     </div>
   </section>
 
-  <!-- ═══════════ PROBLEMA ═══════════ -->
-  <section class="section problema-section">
-    <div class="container two-col">
-      <div class="col-text">
-        <span class="tag fade-up" style="--delay:0ms">O diagnóstico que ninguém quer ouvir</span>
-        <h2 class="fade-up" style="--delay:80ms">Você fatura bem. Mas sente que está <span class="gold">deixando dinheiro na mesa.</span></h2>
-        <p class="fade-up" style="--delay:160ms">Empresas com grande potencial raramente perdem por falta de produto. Elas perdem porque o lead passa pelo time e vai embora sem fechar, ou fecha sem margem.</p>
-        <p class="fade-up" style="--delay:220ms">O problema não é o que você vende. É como sua operação processa cada oportunidade.</p>
-        <ul class="problem-list">
-          <li>
-            <span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-            Leads qualificados que somem no funil sem resposta estruturada
-          </li>
-          <li>
-            <span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-            Margem que desaparece na negociação
-          </li>
-          <li>
-            <span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-            Time que depende do dono para fechar qualquer coisa
-          </li>
-          <li>
-            <span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-            Meses seguidos sem previsibilidade, sem processo
-          </li>
-        </ul>
-      </div>
-      <div class="col-visual">
-        <div class="funil-shell">
-          <img src="assets/funil.png.png" alt="Funil com vazamento — leads chegam, passam pelo time, vazam e fecham sem margem" class="funil-img">
+  <!-- ═══════════ PROBLEMA — SCROLL VIDEO ═══════════ -->
+  <div class="problema-scroll-wrap" id="problemaScrollWrap">
+
+    <!-- STICKY CONTAINER (desktop) -->
+    <div class="problema-sticky" id="problemaSticky">
+
+      <!-- GRADIENTE overlay esquerda → direita (desktop only) -->
+      <div class="problema-gradient-overlay" aria-hidden="true"></div>
+
+      <!-- LADO ESQUERDO: texto -->
+      <div class="problema-text-side">
+        <div class="problema-text-inner">
+          <span class="tag fade-up" style="--delay:0ms">O diagnóstico que ninguém quer ouvir</span>
+          <h2 class="fade-up" style="--delay:80ms">Você fatura bem. Mas sente que está <span class="gold">deixando dinheiro na mesa.</span></h2>
+          <p class="fade-up" style="--delay:160ms">Empresas com grande potencial raramente perdem por falta de produto. Elas perdem porque o lead passa pelo time e vai embora sem fechar, ou fecha sem margem.</p>
+          <p class="fade-up" style="--delay:220ms">O problema não é o que você vende. É como sua operação processa cada oportunidade.</p>
+          <ul class="problem-list">
+            <li>
+              <span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              Leads qualificados que somem no funil sem resposta estruturada
+            </li>
+            <li>
+              <span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              Margem que desaparece na negociação
+            </li>
+            <li>
+              <span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              Time que depende do dono para fechar qualquer coisa
+            </li>
+            <li>
+              <span class="x-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#e55" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+              Meses seguidos sem previsibilidade, sem processo
+            </li>
+          </ul>
         </div>
       </div>
-    </div>
-  </section>
+
+      <!-- LADO DIREITO: vídeo scroll-driven (desktop) / imagem fallback (mobile) -->
+      <div class="problema-video-side">
+        <video
+          id="problemaVideo"
+          class="problema-video"
+          src="assets/funil_scroll.mp4"
+          muted
+          playsinline
+          preload="auto"
+          aria-label="Animação do funil de vendas com vazamento"
+        ></video>
+        <!-- Fallback mobile: imagem original -->
+        <img
+          src="assets/funil.png.png"
+          alt="Funil de vendas com vazamento"
+          class="problema-img-mobile"
+        >
+      </div>
+
+    </div><!-- /problema-sticky -->
+  </div><!-- /problema-scroll-wrap -->
 
   <!-- ═══════════ CAUSA RAIZ ═══════════ -->
   <section class="section causa-section">
