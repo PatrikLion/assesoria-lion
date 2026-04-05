@@ -342,6 +342,7 @@ ul  { list-style: none; }
   .prob-wrap {
     position: relative;
     height: 300vh;
+    background: var(--bg);
   }
 
   .prob-sticky {
@@ -350,13 +351,16 @@ ul  { list-style: none; }
     height: 100vh;
     overflow: hidden;
     background: var(--bg);
+    display: flex;
+    align-items: stretch;
   }
 
-  /* Vídeo cobre 100% da seção */
+  /* Vídeo no lado DIREITO — elemento contido, não fundo total */
   .prob-video {
     position: absolute;
-    inset: 0;
-    width: 100%;
+    top: 0;
+    right: 0;
+    width: 58%;
     height: 100%;
     object-fit: cover;
     display: block;
@@ -366,47 +370,34 @@ ul  { list-style: none; }
   /* Imagem fallback escondida no desktop */
   .prob-img-fallback { display: none; }
 
-  /* Gradiente: esquerda muito escuro → direita semitransparente */
+  /* Gradiente: da esquerda (sólido) para direita (transparente)
+     Cria a transição suave entre o texto e o vídeo — estilo Logitech */
   .prob-overlay {
     position: absolute;
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    background:
-      linear-gradient(
-        to right,
-        rgba(6, 6, 6, 0.97) 0%,
-        rgba(6, 6, 6, 0.92) 35%,
-        rgba(6, 6, 6, 0.65) 60%,
-        rgba(6, 6, 6, 0.25) 100%
-      ),
-      linear-gradient(
-        to bottom,
-        rgba(6, 6, 6, 0.4) 0%,
-        transparent 20%,
-        transparent 80%,
-        rgba(6, 6, 6, 0.4) 100%
-      );
+    background: linear-gradient(
+      to right,
+      var(--bg) 0%,
+      var(--bg) 38%,
+      rgba(6, 6, 6, 0.85) 52%,
+      rgba(6, 6, 6, 0.30) 70%,
+      rgba(6, 6, 6, 0.08) 100%
+    );
   }
 
-  /* Conteúdo sobre o vídeo */
+  /* Conteúdo de texto — lado esquerdo */
   .prob-content {
-    position: absolute;
-    inset: 0;
+    position: relative;
     z-index: 2;
     display: flex;
     align-items: center;
+    width: 100%;
   }
 
   .prob-text {
-    max-width: 520px;
-  }
-
-  /* Garante legibilidade do texto sobre o vídeo */
-  .prob-text h2,
-  .prob-text p,
-  .prob-text .problem-list li {
-    text-shadow: 0 1px 8px rgba(0,0,0,.5);
+    max-width: 500px;
   }
 }
 
