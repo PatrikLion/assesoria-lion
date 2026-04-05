@@ -384,14 +384,40 @@ ul  { list-style: none; }
 .causa-inner p { color: var(--text-muted); font-size: 18px; line-height: 1.75; margin-bottom: 16px; }
 
 .causa-blocks { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 48px; flex-wrap: wrap; }
-.causa-block { flex: 1; min-width: 200px; max-width: 280px; padding: 28px; border-radius: var(--radius); border: 1px solid; text-align: left; }
-.causa-block h4 { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 10px; }
-.causa-block p { font-size: 14px; color: var(--text-muted); margin: 0; line-height: 1.7; }
-.red { background: rgba(229,85,85,.04); border-color: rgba(229,85,85,.14); }
+.causa-block {
+  flex: 1; min-width: 200px; max-width: 300px;
+  padding: 32px; border-radius: 18px; border: 1px solid; text-align: left;
+  transition: transform .4s var(--ease-spring), border-color .3s, box-shadow .3s;
+}
+.causa-block:hover { transform: translateY(-6px); }
+.causa-block h4 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; margin-bottom: 12px; }
+.causa-block p { font-size: 15px; color: var(--text-muted); margin: 0; line-height: 1.75; }
+.red { background: rgba(229,85,85,.04); border-color: rgba(229,85,85,.16); }
+.red:hover { border-color: rgba(229,85,85,.35); box-shadow: 0 16px 40px rgba(229,85,85,.07); }
 .red h4 { color: #e55; }
-.gold-block { background: rgba(201,168,76,.05); border-color: rgba(201,168,76,.14); }
+.gold-block { background: rgba(201,168,76,.05); border-color: rgba(201,168,76,.16); }
+.gold-block:hover { border-color: rgba(201,168,76,.42); box-shadow: 0 16px 40px rgba(201,168,76,.1); }
 .gold-block h4 { color: var(--gold); }
-.causa-arrow { font-size: 24px; color: var(--text-muted); opacity: .35; flex-shrink: 0; }
+
+/* Seta animada */
+.causa-arrow {
+  font-size: 0; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+}
+.causa-arrow::after {
+  content: '';
+  display: block;
+  width: 36px; height: 2px;
+  background: linear-gradient(to right, rgba(201,168,76,.2), var(--gold));
+  border-radius: 2px;
+  position: relative;
+  animation: arrow-slide 2s ease-in-out infinite;
+}
+@keyframes arrow-slide {
+  0%, 100% { transform: translateX(-4px); opacity: .5; }
+  50%       { transform: translateX(4px);  opacity: 1; }
+}
 
 /* =====================
    PILARES — Double Bezel
@@ -399,17 +425,19 @@ ul  { list-style: none; }
 .solucao-section { background: var(--bg); }
 .solucao-section h2 { font-size: clamp(30px, 4.5vw, 50px); font-weight: 800; letter-spacing: -.03em; max-width: 720px; }
 
-.pilares-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 52px; }
+.pilares-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 52px; perspective: 1000px; }
 
 .pilar-shell {
   padding: 2px; border-radius: 22px;
   background: rgba(201,168,76,.04); border: 1px solid var(--border);
   opacity: 0; transform: translateY(32px);
-  transition: opacity .7s var(--ease-out), transform .7s var(--ease-out), border-color .4s var(--ease-out);
+  transition: opacity .7s var(--ease-out), transform .5s var(--ease-spring), border-color .4s var(--ease-out);
   transition-delay: var(--delay, 0ms);
+  will-change: transform;
+  transform-style: preserve-3d;
 }
 .pilar-shell.visible { opacity: 1; transform: translateY(0); }
-.pilar-shell:hover   { border-color: rgba(201,168,76,.35); transform: translateY(-6px); }
+.pilar-shell:hover   { border-color: rgba(201,168,76,.35); }
 
 .pilar-card {
   background: var(--bg3); border-radius: 20px; padding: 36px 26px;
@@ -442,7 +470,7 @@ ul  { list-style: none; }
 .entrega-item p { font-size: 14px; color: var(--text-muted); margin: 0; line-height: 1.6; }
 
 /* =====================
-   REVEAL
+   REVEAL + FADE-UP
 ===================== */
 .reveal {
   opacity: 0; transform: translateY(28px);
@@ -451,13 +479,37 @@ ul  { list-style: none; }
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
+/* Fade-up genérico para textos e títulos */
+.fade-up {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity .7s var(--ease-out), transform .7s var(--ease-out);
+  transition-delay: var(--delay, 0ms);
+}
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+/* Reveal para cards com scale */
+.reveal-card {
+  opacity: 0;
+  transform: translateY(40px) scale(.97);
+  transition: opacity .65s var(--ease-out), transform .65s var(--ease-spring);
+  transition-delay: var(--delay, 0ms);
+}
+.reveal-card.visible { opacity: 1; transform: translateY(0) scale(1); }
+
 /* =====================
    PARA QUEM É
 ===================== */
 .fit-section { background: var(--bg); }
 .fit-section h2 { font-size: clamp(28px, 4vw, 48px); font-weight: 800; letter-spacing: -.03em; margin-bottom: 44px; }
-.fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.fit-card { border-radius: 20px; padding: 40px; border: 1px solid; }
+.fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; perspective: 1000px; }
+.fit-card {
+  border-radius: 20px; padding: 40px; border: 1px solid;
+  transition: transform .5s var(--ease-spring), box-shadow .3s;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+.fit-card:hover { box-shadow: 0 20px 50px rgba(0,0,0,.15); }
 .fit-yes { background: rgba(201,168,76,.03); border-color: rgba(201,168,76,.14); }
 .fit-no  { background: rgba(229,85,85,.02);  border-color: rgba(229,85,85,.12); }
 .fit-card h3 { font-size: 10px; font-weight: 700; margin-bottom: 22px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .12em; }
@@ -556,9 +608,15 @@ ul  { list-style: none; }
   box-shadow: inset 0 1px 1px rgba(201,168,76,.05);
 }
 .garantia-badge {
-  flex-shrink: 0; width: 110px; height: 110px; border-radius: 50%;
+  flex-shrink: 0; width: 120px; height: 120px; border-radius: 50%;
   background: var(--gold); color: #000;
   display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  animation: badge-pop 3s ease-in-out infinite;
+  box-shadow: 0 0 0 0 rgba(201,168,76,.4);
+}
+@keyframes badge-pop {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,.3); }
+  50%       { box-shadow: 0 0 0 14px rgba(201,168,76,0); }
 }
 .garantia-num { font-size: 36px; font-weight: 900; line-height: 1; letter-spacing: -.04em; }
 .garantia-badge small { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }

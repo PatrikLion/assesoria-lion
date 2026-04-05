@@ -41,9 +41,9 @@ const pilarObserver = new IntersectionObserver((entries) => {
 pilarShells.forEach(el => pilarObserver.observe(el));
 
 // =====================
-// REVEALS GENÉRICOS
+// REVEALS GENÉRICOS (reveal, fade-up, reveal-card)
 // =====================
-const revealEls = document.querySelectorAll('.reveal');
+const revealEls = document.querySelectorAll('.reveal, .fade-up, .reveal-card');
 
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
@@ -51,12 +51,48 @@ const revealObserver = new IntersectionObserver((entries) => {
     const el = entry.target;
     const delay = parseInt(el.style.getPropertyValue('--delay')) || 0;
     el.classList.add('visible');
-    setTimeout(() => el.style.removeProperty('--delay'), 700 + delay);
+    setTimeout(() => el.style.removeProperty('--delay'), 800 + delay);
     revealObserver.unobserve(el);
   });
-}, { threshold: 0.12 });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
 revealEls.forEach(el => revealObserver.observe(el));
+
+// =====================
+// CONTADOR ANIMADO — hero stats
+// =====================
+function animateCounter(el, target, suffix, duration) {
+  const start = performance.now();
+  const update = (now) => {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(eased * target);
+    el.textContent = current + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+    else el.textContent = target + suffix;
+  };
+  requestAnimationFrame(update);
+}
+
+const statsSection = document.querySelector('.hero-stats');
+if (statsSection) {
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const nums = [
+        { el: document.querySelectorAll('.hero-stat-num')[0], val: 100, suffix: '+' },
+        { el: document.querySelectorAll('.hero-stat-num')[1], val: 3,   suffix: '+' },
+        { el: document.querySelectorAll('.hero-stat-num')[2], val: 4400, suffix: '+' },
+      ];
+      nums.forEach(({ el, val, suffix }) => {
+        if (el) animateCounter(el, val, suffix, 1400);
+      });
+      counterObserver.unobserve(entry.target);
+    });
+  }, { threshold: 0.5 });
+  counterObserver.observe(statsSection);
+}
 
 // =====================
 // HERO STATS — animação de entrada
@@ -124,8 +160,10 @@ if (depTrack) {
 }
 
 // =====================
-// PILAR CARDS — efeito spotlight no hover (CSS variable mouse pos)
+// PILAR CARDS — tilt 3D + spotlight no hover
 // =====================
+const isMobile = () => window.innerWidth < 768;
+
 document.querySelectorAll('.pilar-shell').forEach(shell => {
   shell.addEventListener('mousemove', e => {
     const rect = shell.getBoundingClientRect();
@@ -133,5 +171,30 @@ document.querySelectorAll('.pilar-shell').forEach(shell => {
     const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
     shell.style.setProperty('--mx', x + '%');
     shell.style.setProperty('--my', y + '%');
+
+    if (!isMobile()) {
+      const rotX = ((e.clientY - rect.top) / rect.height - 0.5) * -8;
+      const rotY = ((e.clientX - rect.left) / rect.width - 0.5) * 8;
+      shell.style.transform = `translateY(-6px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    }
+  });
+  shell.addEventListener('mouseleave', () => {
+    shell.style.transform = '';
+  });
+});
+
+// =====================
+// FIT CARDS — tilt 3D suave
+// =====================
+document.querySelectorAll('.fit-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    if (isMobile()) return;
+    const rect = card.getBoundingClientRect();
+    const rotX = ((e.clientY - rect.top) / rect.height - 0.5) * -6;
+    const rotY = ((e.clientX - rect.left) / rect.width - 0.5) * 6;
+    card.style.transform = `translateY(-5px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
   });
 });
