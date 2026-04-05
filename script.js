@@ -1,4 +1,167 @@
 // =====================
+// MODAL — open / close
+// =====================
+const modalOverlay = document.getElementById('modalOverlay');
+const modalBox     = document.getElementById('modalBox');
+
+function openModal(e) {
+  if (e) e.preventDefault();
+  modalOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => {
+    const first = modalBox.querySelector('input, select');
+    if (first) first.focus();
+  }, 350);
+}
+
+function closeModal() {
+  modalOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Fecha ao clicar fora do box
+modalOverlay.addEventListener('click', e => {
+  if (e.target === modalOverlay) closeModal();
+});
+
+// Fecha com ESC
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// =====================
+// MÁSCARAS
+// =====================
+const whatsInput = document.getElementById('f-whats');
+const instaInput = document.getElementById('f-insta');
+const emailInput = document.getElementById('f-email');
+
+// Máscara WhatsApp: (XX) XXXXX-XXXX
+whatsInput.addEventListener('input', function () {
+  let v = this.value.replace(/\D/g, '').slice(0, 11);
+  if (v.length > 10) {
+    v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+  } else if (v.length > 6) {
+    v = v.replace(/^(\d{2})(\d{4})(\d*)$/, '($1) $2-$3');
+  } else if (v.length > 2) {
+    v = v.replace(/^(\d{2})(\d*)$/, '($1) $2');
+  }
+  this.value = v;
+});
+
+// @ automático no Instagram
+instaInput.addEventListener('input', function () {
+  let v = this.value;
+  if (v.length > 0 && v[0] !== '@') {
+    this.value = '@' + v.replace(/@/g, '');
+  }
+  if (v === '') this.value = '';
+});
+instaInput.addEventListener('focus', function () {
+  if (this.value === '') this.value = '@';
+});
+instaInput.addEventListener('blur', function () {
+  if (this.value === '@') this.value = '';
+});
+
+// =====================
+// VALIDAÇÃO
+// =====================
+function showError(fieldId, errId, msg) {
+  const field = document.getElementById(fieldId);
+  const err   = document.getElementById(errId);
+  field.classList.add('error');
+  if (err) err.textContent = msg;
+}
+function clearError(fieldId, errId) {
+  const field = document.getElementById(fieldId);
+  const err   = document.getElementById(errId);
+  field.classList.remove('error');
+  if (err) err.textContent = '';
+}
+
+// Limpa erro ao digitar
+['f-nome','f-whats','f-email','f-insta','f-vendedores','f-faturamento'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => clearError(id, 'err-' + id.replace('f-','')));
+});
+
+function validateForm() {
+  let ok = true;
+  const nome     = document.getElementById('f-nome').value.trim();
+  const whats    = document.getElementById('f-whats').value.replace(/\D/g,'');
+  const email    = document.getElementById('f-email').value.trim();
+  const vendas   = document.getElementById('f-vendedores').value;
+  const fat      = document.getElementById('f-faturamento').value;
+
+  if (nome.length < 3) {
+    showError('f-nome', 'err-nome', 'Informe seu nome completo.'); ok = false;
+  }
+  if (whats.length < 10) {
+    showError('f-whats', 'err-whats', 'Número inválido. Use (XX) XXXXX-XXXX.'); ok = false;
+  }
+  const emailRgx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRgx.test(email)) {
+    showError('f-email', 'err-email', 'E-mail inválido.'); ok = false;
+  }
+  if (!vendas) {
+    showError('f-vendedores', 'err-vendedores', 'Selecione uma opção.'); ok = false;
+  }
+  if (!fat) {
+    showError('f-faturamento', 'err-faturamento', 'Selecione uma opção.'); ok = false;
+  }
+  return ok;
+}
+
+// =====================
+// ENVIO DO FORMULÁRIO
+// =====================
+// Substitua a URL abaixo pelo seu endpoint (Formspree, Make, N8n, etc.)
+const FORM_ENDPOINT = 'https://formspree.io/f/SEU_ID_AQUI';
+
+document.getElementById('modalForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  if (!validateForm()) return;
+
+  const btn = document.getElementById('modalSubmitBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  const payload = {
+    nome:        document.getElementById('f-nome').value.trim(),
+    whatsapp:    document.getElementById('f-whats').value.trim(),
+    email:       document.getElementById('f-email').value.trim(),
+    instagram:   document.getElementById('f-insta').value.trim(),
+    vendedores:  document.getElementById('f-vendedores').value,
+    faturamento: document.getElementById('f-faturamento').value,
+  };
+
+  try {
+    const res = await fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.ok) {
+      document.getElementById('modalForm').style.display = 'none';
+      document.getElementById('modalSuccess').classList.add('show');
+    } else {
+      throw new Error('Erro no servidor');
+    }
+  } catch {
+    // Fallback: abre WhatsApp com os dados preenchidos
+    const msg = encodeURIComponent(
+      `Olá! Quero meu diagnóstico gratuito.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}\nE-mail: ${payload.email}\nInstagram: ${payload.instagram}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}`
+    );
+    window.open(`https://wa.me/55SEUNUMERO?text=${msg}`, '_blank');
+  } finally {
+    btn.classList.remove('loading');
+    btn.disabled = false;
+  }
+});
+
+// =====================
 // NAVBAR SCROLL
 // =====================
 const navbar = document.getElementById('navbar');
