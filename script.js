@@ -120,16 +120,29 @@ function validateForm() {
 const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyeqzKibrD4S9fTgBG6KQUc2ek-2UDE3UJsd1N4rYbKZTIYd33QHjQ6mJXKh8ux6b3M9A/exec';
 const N8N_ENDPOINT  = 'https://webhook.lionmidiasia.com/webhook/8287de5d-c83a-4f5f-98d7-58590d350325';
 
-// Captura UTMs da URL (ex: ?utm_source=facebook&utm_medium=paid)
+// Captura UTMs + fbclid + cookies Meta da URL
 function getUTMs() {
   const p = new URLSearchParams(window.location.search);
+
+  // fbclid → formata como fbc exigido pela Meta: fb.1.{timestamp}.{fbclid}
+  const fbclid = p.get('fbclid') || '';
+  const fbc = fbclid ? `fb.1.${Date.now()}.${fbclid}` : getCookie('_fbc') || '';
+
   return {
     utm_source:   p.get('utm_source')   || '',
     utm_medium:   p.get('utm_medium')   || '',
     utm_campaign: p.get('utm_campaign') || '',
     utm_content:  p.get('utm_content')  || '',
     utm_term:     p.get('utm_term')     || '',
+    fbclid,
+    fbc,
+    fbp: getCookie('_fbp') || '',
   };
+}
+
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? match[2] : '';
 }
 
 document.getElementById('modalForm').addEventListener('submit', async function (e) {
