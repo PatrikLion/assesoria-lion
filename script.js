@@ -162,65 +162,6 @@ document.getElementById('modalForm').addEventListener('submit', async function (
 });
 
 // =====================
-// SCROLL-DRIVEN VIDEO — Seção Problema
-// =====================
-(function () {
-  const wrap  = document.getElementById('problemaScrollWrap');
-  const video = document.getElementById('problemaVideo');
-
-  // Só ativa no desktop
-  if (!wrap || !video || window.innerWidth < 768) return;
-
-  let rafId = null;
-  let lastProgress = -1;
-
-  function updateVideo() {
-    const wrapRect   = wrap.getBoundingClientRect();
-    const wrapHeight = wrap.offsetHeight;     // 300vh
-    const vpHeight   = window.innerHeight;    // 100vh
-
-    // scrollY relativo ao início do wrapper
-    const scrolled = -wrapRect.top;
-
-    // Range de scroll útil: de 0 até (300vh - 100vh) = 200vh
-    const scrollRange = wrapHeight - vpHeight;
-
-    const progress = Math.min(Math.max(scrolled / scrollRange, 0), 1);
-
-    // Só atualiza se mudou (evita repaints desnecessários)
-    if (Math.abs(progress - lastProgress) < 0.001) return;
-    lastProgress = progress;
-
-    if (video.duration && isFinite(video.duration)) {
-      video.currentTime = progress * video.duration;
-    }
-  }
-
-  function onScroll() {
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(updateVideo);
-  }
-
-  // Aguarda metadados do vídeo para ter duration
-  video.addEventListener('loadedmetadata', () => {
-    // Pausa o vídeo — scroll controla o tempo
-    video.pause();
-    updateVideo();
-  });
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-
-  // Atualiza ao redimensionar (mobile/desktop swap)
-  window.addEventListener('resize', () => {
-    if (window.innerWidth < 768) {
-      window.removeEventListener('scroll', onScroll);
-    } else {
-      window.addEventListener('scroll', onScroll, { passive: true });
-    }
-  }, { passive: true });
-})();
-
-// =====================
 // NAVBAR SCROLL
 // =====================
 const navbar = document.getElementById('navbar');
