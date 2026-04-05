@@ -340,52 +340,7 @@ ul  { list-style: none; }
 /* =====================
    PROBLEMA
 ===================== */
-.problema-section {
-  background: var(--bg);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Vídeo como fundo da seção (desktop) */
-.prob-bg-video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-  display: block;
-}
-
-/* Gradiente: esquerda sólido → direita semitransparente */
-.prob-bg-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    to right,
-    rgba(6, 6, 6, 1)    0%,
-    rgba(6, 6, 6, 0.96) 30%,
-    rgba(6, 6, 6, 0.75) 55%,
-    rgba(6, 6, 6, 0.30) 75%,
-    rgba(6, 6, 6, 0.08) 100%
-  );
-}
-
-/* Conteúdo acima do vídeo */
-.problema-section .container { position: relative; z-index: 2; }
-
-/* Coluna direita apenas espaçadora — vídeo é o fundo */
-.prob-col-spacer { pointer-events: none; }
-
-/* Mobile: esconde vídeo e overlay */
-@media (max-width: 767px) {
-  .prob-bg-video   { display: none; }
-  .prob-bg-overlay { display: none; }
-  .prob-col-spacer { display: none; }
-  .problema-section .two-col { grid-template-columns: 1fr; }
-}
+.problema-section { background: var(--bg); }
 
 .col-text h2 {
   font-size: clamp(28px, 4vw, 44px);

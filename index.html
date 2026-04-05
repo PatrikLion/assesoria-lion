@@ -134,22 +134,7 @@
   </section>
 
   <!-- ═══════════ PROBLEMA ═══════════ -->
-  <section class="section problema-section" id="problemaSection">
-
-    <!-- Vídeo fundo (desktop only) -->
-    <video
-      id="funilVideo"
-      class="prob-bg-video"
-      src="assets/funil_scroll.mp4"
-      muted
-      playsinline
-      preload="auto"
-      aria-hidden="true"
-    ></video>
-
-    <!-- Gradiente sobre o vídeo para legibilidade -->
-    <div class="prob-bg-overlay" aria-hidden="true"></div>
-
+  <section class="section problema-section">
     <div class="container two-col">
       <div class="col-text">
         <span class="tag fade-up" style="--delay:0ms">O diagnóstico que ninguém quer ouvir</span>
@@ -175,8 +160,11 @@
           </li>
         </ul>
       </div>
-      <!-- Coluna direita vazia no desktop (vídeo é o fundo) — mantém o layout two-col -->
-      <div class="col-visual prob-col-spacer"></div>
+      <div class="col-visual">
+        <div class="funil-shell">
+          <img src="assets/funil.png.png" alt="Funil de vendas com vazamento" class="funil-img">
+        </div>
+      </div>
     </div>
   </section>
 

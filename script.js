@@ -162,43 +162,6 @@ document.getElementById('modalForm').addEventListener('submit', async function (
 });
 
 // =====================
-// SCROLL-DRIVEN VIDEO — Fundo seção Problema
-// =====================
-(function () {
-  const video   = document.getElementById('funilVideo');
-  const section = document.getElementById('problemaSection');
-  if (!video || !section || window.innerWidth < 768) return;
-
-  let rafId    = null;
-  let lastTime = -1;
-  let ready    = false;
-
-  video.addEventListener('loadedmetadata', () => { ready = true; });
-  setTimeout(() => { if (!ready && video.duration) ready = true; }, 800);
-
-  function tick() {
-    if (!ready || !video.duration) return;
-    const rect      = section.getBoundingClientRect();
-    const vpH       = window.innerHeight;
-    const secH      = section.offsetHeight;
-    // 0 quando a seção entra na tela, 1 quando sai pelo topo
-    const scrolled  = -rect.top;
-    const range     = secH + vpH;
-    const progress  = Math.min(Math.max(scrolled / range + vpH / range, 0), 1);
-    const target    = progress * video.duration;
-    if (Math.abs(target - lastTime) > 0.012) {
-      video.currentTime = target;
-      lastTime = target;
-    }
-  }
-
-  window.addEventListener('scroll', () => {
-    if (rafId) cancelAnimationFrame(rafId);
-    rafId = requestAnimationFrame(tick);
-  }, { passive: true });
-})();
-
-// =====================
 // NAVBAR SCROLL
 // =====================
 const navbar = document.getElementById('navbar');
