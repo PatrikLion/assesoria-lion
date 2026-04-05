@@ -162,7 +162,19 @@
       </div>
       <div class="col-visual">
         <div class="funil-shell">
-          <img src="assets/funil.png.png" alt="Funil de vendas com vazamento" class="funil-img">
+          <!-- Vídeo scroll-driven (desktop) -->
+          <video
+            id="funilVideo"
+            class="funil-video"
+            src="assets/funil_scroll.mp4"
+            muted
+            playsinline
+            preload="auto"
+          ></video>
+          <!-- Fallback imagem (mobile) -->
+          <img src="assets/funil.png.png" alt="Funil de vendas com vazamento" class="funil-img funil-img-mobile">
+          <!-- Gradiente nas bordas do vídeo -->
+          <div class="funil-video-gradient" aria-hidden="true"></div>
         </div>
       </div>
     </div>

@@ -162,6 +162,46 @@ document.getElementById('modalForm').addEventListener('submit', async function (
 });
 
 // =====================
+// SCROLL-DRIVEN VIDEO — Funil (elemento direito)
+// =====================
+(function () {
+  const video = document.getElementById('funilVideo');
+  if (!video || window.innerWidth < 768) return;
+
+  let rafId    = null;
+  let lastTime = -1;
+  let ready    = false;
+
+  video.addEventListener('loadedmetadata', () => { ready = true; });
+  setTimeout(() => { if (!ready && video.duration) ready = true; }, 800);
+
+  function tick() {
+    if (!ready || !video.duration) return;
+
+    const rect        = video.getBoundingClientRect();
+    const vpH         = window.innerHeight;
+    // Progresso: 0 quando o vídeo entra pelo fundo, 1 quando sai pelo topo
+    const progress    = Math.min(Math.max(
+      1 - (rect.bottom / (vpH + rect.height)), 0), 1);
+    const targetTime  = progress * video.duration;
+
+    if (Math.abs(targetTime - lastTime) > 0.012) {
+      video.currentTime = targetTime;
+      lastTime = targetTime;
+    }
+  }
+
+  window.addEventListener('scroll', () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(tick);
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth < 768) window.removeEventListener('scroll', tick);
+  }, { passive: true });
+})();
+
+// =====================
 // NAVBAR SCROLL
 // =====================
 const navbar = document.getElementById('navbar');
