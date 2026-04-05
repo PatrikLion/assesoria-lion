@@ -1,0 +1,57 @@
+# =====================
+# FORÇAR HTTPS
+# =====================
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# =====================
+# HEADERS DE SEGURANÇA
+# =====================
+
+# Impede o site de ser carregado em iframe (clickjacking)
+Header always set X-Frame-Options "SAMEORIGIN"
+
+# Impede o navegador de adivinhar o tipo de arquivo (MIME sniffing)
+Header always set X-Content-Type-Options "nosniff"
+
+# Força HTTPS por 1 ano (HSTS)
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+# Controla informações de referência enviadas
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+# Desativa funcionalidades desnecessárias do navegador
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+
+# Content Security Policy — define quais origens são confiáveis
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.facebook.com blob:; connect-src 'self' https://script.google.com https://webhook.lionmidiasia.com https://graph.facebook.com; frame-ancestors 'none';"
+
+# =====================
+# CACHE — arquivos estáticos
+# =====================
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType image/png "access plus 6 months"
+  ExpiresByType image/jpeg "access plus 6 months"
+  ExpiresByType image/webp "access plus 6 months"
+  ExpiresByType video/mp4 "access plus 6 months"
+  ExpiresByType image/svg+xml "access plus 1 month"
+</IfModule>
+
+# =====================
+# COMPRESSÃO GZIP
+# =====================
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript text/plain
+</IfModule>
+
+# =====================
+# BLOQUEIA ACESSO A ARQUIVOS SENSÍVEIS
+# =====================
+<FilesMatch "\.(htaccess|htpasswd|md|git|env|lock|json)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>

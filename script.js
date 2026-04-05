@@ -145,8 +145,23 @@ function getCookie(name) {
   return match ? match[2] : '';
 }
 
+// Marca o momento em que o modal foi aberto (para checar tempo mínimo)
+let _modalOpenedAt = 0;
+const _origOpenModal = openModal;
+function openModal(e) {
+  _modalOpenedAt = Date.now();
+  _origOpenModal(e);
+}
+
 document.getElementById('modalForm').addEventListener('submit', async function (e) {
   e.preventDefault();
+
+  // Anti-bot: honeypot preenchido = bot
+  if (document.getElementById('f-website').value !== '') return;
+
+  // Anti-bot: formulário enviado em menos de 3 segundos = bot
+  if (Date.now() - _modalOpenedAt < 3000) return;
+
   if (!validateForm()) return;
 
   const btn = document.getElementById('modalSubmitBtn');

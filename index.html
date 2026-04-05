@@ -551,6 +551,11 @@
       <!-- Formulário -->
       <form class="modal-form" id="modalForm" novalidate>
 
+        <!-- Honeypot anti-bot: invisível para humanos, bots preenchem -->
+        <div style="position:absolute;left:-9999px;opacity:0;height:0;width:0;" aria-hidden="true">
+          <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
         <div class="form-field">
           <label for="f-nome">Seu nome completo</label>
           <input type="text" id="f-nome" name="nome" placeholder="Ex: Carlos Mendonça" autocomplete="name" required>
