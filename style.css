@@ -334,9 +334,104 @@ ul  { list-style: none; }
 }
 
 /* =====================
-   PROBLEMA
+   PROBLEMA — SCROLL VIDEO
 ===================== */
-.problema-section { background: var(--bg); }
+
+/* ─── DESKTOP ─── */
+@media (min-width: 768px) {
+  .prob-wrap {
+    position: relative;
+    height: 300vh;
+  }
+
+  .prob-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  /* Vídeo cobre 100% da seção */
+  .prob-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 0;
+  }
+
+  /* Imagem fallback escondida no desktop */
+  .prob-img-fallback { display: none; }
+
+  /* Gradiente: esquerda escuro → direita leve */
+  .prob-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+      to right,
+      rgba(7, 17, 29, 0.88) 0%,
+      rgba(7, 17, 29, 0.60) 40%,
+      rgba(7, 17, 29, 0.20) 100%
+    );
+  }
+
+  /* Conteúdo sobre o vídeo */
+  .prob-content {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+  }
+
+  .prob-text {
+    max-width: 560px;
+  }
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 767px) {
+  .prob-wrap {
+    background: var(--bg);
+    padding: 60px 0;
+  }
+
+  .prob-sticky {
+    position: relative;
+  }
+
+  /* Vídeo escondido no mobile */
+  .prob-video { display: none; }
+
+  /* Imagem fallback visível no mobile */
+  .prob-img-fallback {
+    display: block;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto 36px;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 48px rgba(201,168,76,.14));
+  }
+
+  .prob-overlay { display: none; }
+
+  .prob-content {
+    padding: 0 24px;
+  }
+
+  .prob-text {
+    width: 100%;
+    text-align: center;
+  }
+
+  .prob-text .problem-list { text-align: left; }
+}
 
 .col-text h2 {
   font-size: clamp(28px, 4vw, 44px);

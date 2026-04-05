@@ -162,6 +162,64 @@ document.getElementById('modalForm').addEventListener('submit', async function (
 });
 
 // =====================
+// SCROLL-DRIVEN VIDEO — Seção Problema
+// =====================
+(function () {
+  const wrap  = document.getElementById('probWrap');
+  const video = document.getElementById('probVideo');
+
+  if (!wrap || !video) return;
+
+  // Só ativa no desktop
+  if (window.innerWidth < 768) return;
+
+  let rafId      = null;
+  let lastTime   = -1;
+  let isReady    = false;
+
+  video.addEventListener('loadedmetadata', () => { isReady = true; tick(); });
+  // Fallback: tenta após 1s caso loadedmetadata já tenha disparado
+  setTimeout(() => { if (!isReady && video.duration) { isReady = true; tick(); } }, 1000);
+
+  function getProgress() {
+    const rect        = wrap.getBoundingClientRect();
+    const wrapHeight  = wrap.offsetHeight;   // 300vh
+    const vpHeight    = window.innerHeight;
+    const scrolled    = -rect.top;           // scroll relativo ao topo do wrapper
+    const scrollRange = wrapHeight - vpHeight;
+    return Math.min(Math.max(scrolled / scrollRange, 0), 1);
+  }
+
+  function tick() {
+    if (!isReady || !video.duration) return;
+    const progress   = getProgress();
+    const targetTime = progress * video.duration;
+
+    // Só atualiza se houve mudança perceptível (evita seek desnecessário)
+    if (Math.abs(targetTime - lastTime) > 0.015) {
+      video.currentTime = targetTime;
+      lastTime = targetTime;
+    }
+  }
+
+  function onScroll() {
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(tick);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Desativa em resize para mobile
+  window.addEventListener('resize', () => {
+    if (window.innerWidth < 768) {
+      window.removeEventListener('scroll', onScroll);
+    } else {
+      window.addEventListener('scroll', onScroll, { passive: true });
+    }
+  }, { passive: true });
+})();
+
+// =====================
 // NAVBAR SCROLL
 // =====================
 const navbar = document.getElementById('navbar');
