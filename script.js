@@ -118,6 +118,7 @@ function validateForm() {
 // =====================
 // Google Sheets via Apps Script
 const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyeqzKibrD4S9fTgBG6KQUc2ek-2UDE3UJsd1N4rYbKZTIYd33QHjQ6mJXKh8ux6b3M9A/exec';
+const N8N_ENDPOINT  = 'https://webhook.lionmidiasia.com/webhook/8287de5d-c83a-4f5f-98d7-58590d350325';
 
 // Captura UTMs da URL (ex: ?utm_source=facebook&utm_medium=paid)
 function getUTMs() {
@@ -155,12 +156,19 @@ document.getElementById('modalForm').addEventListener('submit', async function (
   const waURL = `https://wa.me/556281547209?text=${waMsg}`;
 
   try {
-    await fetch(FORM_ENDPOINT, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+    await Promise.all([
+      fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }),
+      fetch(N8N_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }),
+    ]);
   } catch {
     // ignora erro de rede — redireciona para WhatsApp de qualquer forma
   } finally {
