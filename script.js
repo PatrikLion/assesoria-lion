@@ -116,8 +116,20 @@ function validateForm() {
 // =====================
 // ENVIO DO FORMULÁRIO
 // =====================
-// Substitua a URL abaixo pelo seu endpoint (Formspree, Make, N8n, etc.)
-const FORM_ENDPOINT = 'https://formspree.io/f/SEU_ID_AQUI';
+// Google Sheets via Apps Script
+const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyeqzKibrD4S9fTgBG6KQUc2ek-2UDE3UJsd1N4rYbKZTIYd33QHjQ6mJXKh8ux6b3M9A/exec';
+
+// Captura UTMs da URL (ex: ?utm_source=facebook&utm_medium=paid)
+function getUTMs() {
+  const p = new URLSearchParams(window.location.search);
+  return {
+    utm_source:   p.get('utm_source')   || '',
+    utm_medium:   p.get('utm_medium')   || '',
+    utm_campaign: p.get('utm_campaign') || '',
+    utm_content:  p.get('utm_content')  || '',
+    utm_term:     p.get('utm_term')     || '',
+  };
+}
 
 document.getElementById('modalForm').addEventListener('submit', async function (e) {
   e.preventDefault();
@@ -134,30 +146,29 @@ document.getElementById('modalForm').addEventListener('submit', async function (
     instagram:   document.getElementById('f-insta').value.trim(),
     vendedores:  document.getElementById('f-vendedores').value,
     faturamento: document.getElementById('f-faturamento').value,
+    ...getUTMs(),
   };
 
+  const waMsg = encodeURIComponent(
+    `Olá! Quero meu diagnóstico gratuito.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}\nE-mail: ${payload.email}\nInstagram: ${payload.instagram}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}`
+  );
+  const waURL = `https://wa.me/556281547209?text=${waMsg}`;
+
   try {
-    const res = await fetch(FORM_ENDPOINT, {
+    await fetch(FORM_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
-
-    if (res.ok) {
-      document.getElementById('modalForm').style.display = 'none';
-      document.getElementById('modalSuccess').classList.add('show');
-    } else {
-      throw new Error('Erro no servidor');
-    }
   } catch {
-    // Fallback: abre WhatsApp com os dados preenchidos
-    const msg = encodeURIComponent(
-      `Olá! Quero meu diagnóstico gratuito.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}\nE-mail: ${payload.email}\nInstagram: ${payload.instagram}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}`
-    );
-    window.open(`https://wa.me/55SEUNUMERO?text=${msg}`, '_blank');
+    // ignora erro de rede — redireciona para WhatsApp de qualquer forma
   } finally {
     btn.classList.remove('loading');
     btn.disabled = false;
+    window.open(waURL, '_blank');
+    document.getElementById('modalForm').style.display = 'none';
+    document.getElementById('modalSuccess').classList.add('show');
   }
 });
 
