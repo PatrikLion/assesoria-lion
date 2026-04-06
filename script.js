@@ -15,6 +15,10 @@ function openModal(e) {
     const first = modalBox.querySelector('input, select');
     if (first) first.focus();
   }, 350);
+  // Meta Pixel: Ver conteúdo ao abrir o modal
+  if (typeof fbq === 'function') {
+    fbq('track', 'ViewContent', { content_name: 'Diagnóstico Gratuito' });
+  }
 }
 
 function closeModal() {
