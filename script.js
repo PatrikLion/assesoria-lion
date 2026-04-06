@@ -20,6 +20,11 @@ function openModal(e) {
 function closeModal() {
   modalOverlay.classList.remove('open');
   document.body.style.overflow = '';
+  // Reseta estado do modal para poder reabrir limpo
+  const form    = document.getElementById('modalForm');
+  const success = document.getElementById('modalSuccess');
+  if (form)    form.style.display = '';
+  if (success) success.classList.remove('show');
 }
 
 // Fecha ao clicar fora do box
@@ -178,6 +183,25 @@ document.getElementById('modalForm').addEventListener('submit', async function (
   );
   const waURL = `https://wa.me/556281547209?text=${waMsg}`;
 
+  // Abre WhatsApp AGORA (síncrono com o gesto do usuário) — evita bloqueio de popup
+  const waWindow = window.open(waURL, '_blank');
+
+  // Mostra sucesso imediatamente
+  document.getElementById('modalForm').style.display = 'none';
+  document.getElementById('modalSuccess').classList.add('show');
+
+  // Dispara Lead no Meta Pixel
+  if (typeof fbq === 'function') {
+    fbq('track', 'Lead', {
+      content_name: 'Diagnóstico Gratuito',
+      content_category: 'Formulário',
+    });
+  }
+
+  btn.classList.remove('loading');
+  btn.disabled = false;
+
+  // Envia para Sheets e n8n em background (não bloqueia o usuário)
   try {
     await Promise.all([
       fetch(FORM_ENDPOINT, {
@@ -193,20 +217,7 @@ document.getElementById('modalForm').addEventListener('submit', async function (
       }),
     ]);
   } catch {
-    // ignora erro de rede — redireciona para WhatsApp de qualquer forma
-  } finally {
-    btn.classList.remove('loading');
-    btn.disabled = false;
-    // Dispara evento Lead no Meta Pixel
-    if (typeof fbq === 'function') {
-      fbq('track', 'Lead', {
-        content_name: 'Diagnóstico Gratuito',
-        content_category: 'Formulário',
-      });
-    }
-    window.open(waURL, '_blank');
-    document.getElementById('modalForm').style.display = 'none';
-    document.getElementById('modalSuccess').classList.add('show');
+    // ignora erro — dados enviados para WhatsApp de qualquer forma
   }
 });
 
