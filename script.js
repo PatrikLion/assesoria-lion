@@ -23,7 +23,16 @@ function closeModal() {
   // Reseta estado do modal para poder reabrir limpo
   const form    = document.getElementById('modalForm');
   const success = document.getElementById('modalSuccess');
-  if (form)    form.style.display = '';
+  if (form) {
+    form.style.display = '';
+    form.reset();
+    // Limpa erros de validação
+    form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+    form.querySelectorAll('.form-error').forEach(el => el.textContent = '');
+    // Limpa @ do Instagram
+    const insta = document.getElementById('f-insta');
+    if (insta) insta.value = '';
+  }
   if (success) success.classList.remove('show');
 }
 
@@ -184,7 +193,7 @@ document.getElementById('modalForm').addEventListener('submit', async function (
   const waURL = `https://wa.me/556281547209?text=${waMsg}`;
 
   // Abre WhatsApp AGORA (síncrono com o gesto do usuário) — evita bloqueio de popup
-  const waWindow = window.open(waURL, '_blank');
+  window.open(waURL, '_blank', 'noopener,noreferrer');
 
   // Mostra sucesso imediatamente
   document.getElementById('modalForm').style.display = 'none';
