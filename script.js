@@ -4,8 +4,11 @@
 const modalOverlay = document.getElementById('modalOverlay');
 const modalBox     = document.getElementById('modalBox');
 
+let _modalOpenedAt = 0;
+
 function openModal(e) {
   if (e) e.preventDefault();
+  _modalOpenedAt = Date.now();
   modalOverlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   setTimeout(() => {
@@ -143,14 +146,6 @@ function getUTMs() {
 function getCookie(name) {
   const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
   return match ? match[2] : '';
-}
-
-// Marca o momento em que o modal foi aberto (para checar tempo mínimo)
-let _modalOpenedAt = 0;
-const _origOpenModal = openModal;
-function openModal(e) {
-  _modalOpenedAt = Date.now();
-  _origOpenModal(e);
 }
 
 document.getElementById('modalForm').addEventListener('submit', async function (e) {
