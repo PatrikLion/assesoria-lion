@@ -617,10 +617,11 @@ ul  { list-style: none; }
   display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
   animation: badge-pop 3s ease-in-out infinite;
   box-shadow: 0 0 0 0 rgba(201,168,76,.4);
+  will-change: transform;
 }
 @keyframes badge-pop {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,.3); }
-  50%       { box-shadow: 0 0 0 14px rgba(201,168,76,0); }
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.06); }
 }
 .garantia-num { font-size: 36px; font-weight: 900; line-height: 1; letter-spacing: -.04em; }
 .garantia-badge small { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
@@ -910,18 +911,19 @@ ul  { list-style: none; }
 .sticky-cta:hover .sticky-cta-icon { transform: translateX(2px); }
 
 @keyframes sticky-pulse {
-  0%, 100% { box-shadow: 0 8px 32px rgba(201,168,76,.35); }
-  50%       { box-shadow: 0 8px 48px rgba(201,168,76,.6), 0 0 0 6px rgba(201,168,76,.1); }
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .8; }
 }
 
 /* Pulso no botão CTA principal */
 .btn-primary.btn-large {
   animation: btn-pulse 3s ease-in-out infinite;
+  will-change: opacity;
 }
 
 @keyframes btn-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
-  50%       { box-shadow: 0 0 0 8px rgba(201,168,76,.12); }
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .82; }
 }
 
 /* =====================
