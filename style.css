@@ -929,6 +929,8 @@ ul  { list-style: none; }
   margin-top: 40px;
   width: 100%;
 }
+.hero-logos-wrap .logos-fade-left  { background: linear-gradient(to right, var(--bg), transparent); }
+.hero-logos-wrap .logos-fade-right { background: linear-gradient(to left,  var(--bg), transparent); }
 
 /* =====================
    FOOTER
