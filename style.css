@@ -927,10 +927,15 @@ ul  { list-style: none; }
 /* Carrossel dentro do hero */
 .hero-logos-wrap {
   margin-top: 40px;
-  width: 100%;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background: var(--bg2);
+  border-top: 1px solid var(--border-sub);
+  border-bottom: 1px solid var(--border-sub);
+  padding: 32px 0;
 }
-.hero-logos-wrap .logos-fade-left  { background: linear-gradient(to right, var(--bg), transparent); }
-.hero-logos-wrap .logos-fade-right { background: linear-gradient(to left,  var(--bg), transparent); }
+.hero-logos-wrap .logos-fade-left  { background: linear-gradient(to right, var(--bg2), transparent); }
+.hero-logos-wrap .logos-fade-right { background: linear-gradient(to left,  var(--bg2), transparent); }
 
 /* =====================
    FOOTER
