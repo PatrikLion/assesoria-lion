@@ -191,20 +191,40 @@ document.getElementById('modalForm').addEventListener('submit', async function (
     ...getUTMs(),
   };
 
-  const waMsg = encodeURIComponent(
-    `Olá! Quero meu diagnóstico gratuito.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}\nE-mail: ${payload.email}\nInstagram: ${payload.instagram}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}`
-  );
+  // Qualificação ICP: desqualifica se sem equipe OU faturamento baixo
+  const icp = payload.vendedores !== 'apenas-eu' && payload.faturamento !== 'menos-50k';
+
+  let waMsg, successTitle, successText;
+
+  if (icp) {
+    waMsg = encodeURIComponent(
+      `Olá! Quero meu diagnóstico gratuito.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}\nE-mail: ${payload.email}\nInstagram: ${payload.instagram}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}`
+    );
+    successTitle = 'Recebemos seu contato!';
+    successText  = 'Em breve nossa equipe vai entrar em contato pelo WhatsApp para agendar seu diagnóstico gratuito.';
+  } else {
+    waMsg = encodeURIComponent(
+      `Olá! Tenho interesse nas soluções da Lion Mídias para minha empresa.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}\nE-mail: ${payload.email}\nInstagram: ${payload.instagram}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}`
+    );
+    successTitle = 'Recebemos seu contato!';
+    successText  = 'Nossa equipe vai entrar em contato em breve com a melhor solução para o momento da sua empresa.';
+  }
+
   const waURL = `https://wa.me/556281547209?text=${waMsg}`;
 
   // Abre WhatsApp AGORA (síncrono com o gesto do usuário) — evita bloqueio de popup
   window.open(waURL, '_blank', 'noopener,noreferrer');
 
+  // Atualiza copy da tela de sucesso conforme qualificação
+  document.querySelector('#modalSuccess h3').textContent = successTitle;
+  document.querySelector('#modalSuccess p').textContent  = successText;
+
   // Mostra sucesso imediatamente
   document.getElementById('modalForm').style.display = 'none';
   document.getElementById('modalSuccess').classList.add('show');
 
-  // Dispara Lead no Meta Pixel
-  if (typeof fbq === 'function') {
+  // Pixel: Lead apenas para ICP — não-ICP não dispara nenhum evento por ora
+  if (icp && typeof fbq === 'function') {
     fbq('track', 'Lead', {
       content_name: 'Diagnóstico Gratuito',
       content_category: 'Formulário',
