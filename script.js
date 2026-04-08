@@ -181,18 +181,29 @@ document.getElementById('modalForm').addEventListener('submit', async function (
   btn.classList.add('loading');
   btn.disabled = true;
 
+  const vendedores  = document.getElementById('f-vendedores').value;
+  const faturamento = document.getElementById('f-faturamento').value;
+
+  // Qualificação ICP: desqualifica se sem equipe OU faturamento baixo
+  const icp = vendedores !== 'apenas-eu' && faturamento !== 'menos-50k';
+
+  const motivoICP = !icp
+    ? (vendedores === 'apenas-eu' && faturamento === 'menos-50k'
+        ? 'sem-equipe-e-faturamento-baixo'
+        : vendedores === 'apenas-eu' ? 'sem-equipe' : 'faturamento-baixo')
+    : null;
+
   const payload = {
     nome:        document.getElementById('f-nome').value.trim(),
     whatsapp:    document.getElementById('f-whats').value.trim(),
     email:       document.getElementById('f-email').value.trim(),
     instagram:   document.getElementById('f-insta').value.trim(),
-    vendedores:  document.getElementById('f-vendedores').value,
-    faturamento: document.getElementById('f-faturamento').value,
+    vendedores,
+    faturamento,
+    qualificado: icp,
+    motivo:      motivoICP,
     ...getUTMs(),
   };
-
-  // Qualificação ICP: desqualifica se sem equipe OU faturamento baixo
-  const icp = payload.vendedores !== 'apenas-eu' && payload.faturamento !== 'menos-50k';
 
   let waMsg, successTitle, successText;
 
@@ -225,12 +236,6 @@ document.getElementById('modalForm').addEventListener('submit', async function (
 
   // Pixel: Lead para ICP / LeadNaoQualificado para não-ICP
   if (typeof fbq === 'function') {
-    const motivo = payload.vendedores === 'apenas-eu' && payload.faturamento === 'menos-50k'
-      ? 'sem-equipe-e-faturamento-baixo'
-      : payload.vendedores === 'apenas-eu'
-        ? 'sem-equipe'
-        : 'faturamento-baixo';
-
     if (icp) {
       fbq('track', 'Lead', {
         content_name: 'Diagnóstico Gratuito',
@@ -240,7 +245,7 @@ document.getElementById('modalForm').addEventListener('submit', async function (
       fbq('trackCustom', 'LeadNaoQualificado', {
         content_name:     'Diagnóstico Gratuito',
         content_category: 'Formulário',
-        motivo,
+        motivo:      motivoICP,
         vendedores:  payload.vendedores,
         faturamento: payload.faturamento,
       });
