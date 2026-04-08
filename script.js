@@ -223,12 +223,28 @@ document.getElementById('modalForm').addEventListener('submit', async function (
   document.getElementById('modalForm').style.display = 'none';
   document.getElementById('modalSuccess').classList.add('show');
 
-  // Pixel: Lead apenas para ICP — não-ICP não dispara nenhum evento por ora
-  if (icp && typeof fbq === 'function') {
-    fbq('track', 'Lead', {
-      content_name: 'Diagnóstico Gratuito',
-      content_category: 'Formulário',
-    });
+  // Pixel: Lead para ICP / LeadNaoQualificado para não-ICP
+  if (typeof fbq === 'function') {
+    const motivo = payload.vendedores === 'apenas-eu' && payload.faturamento === 'menos-50k'
+      ? 'sem-equipe-e-faturamento-baixo'
+      : payload.vendedores === 'apenas-eu'
+        ? 'sem-equipe'
+        : 'faturamento-baixo';
+
+    if (icp) {
+      fbq('track', 'Lead', {
+        content_name: 'Diagnóstico Gratuito',
+        content_category: 'Formulário',
+      });
+    } else {
+      fbq('trackCustom', 'LeadNaoQualificado', {
+        content_name:     'Diagnóstico Gratuito',
+        content_category: 'Formulário',
+        motivo,
+        vendedores:  payload.vendedores,
+        faturamento: payload.faturamento,
+      });
+    }
   }
 
   btn.classList.remove('loading');
