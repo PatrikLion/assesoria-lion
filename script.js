@@ -112,6 +112,7 @@ function validateForm() {
   const nome     = document.getElementById('f-nome').value.trim();
   const whats    = document.getElementById('f-whats').value.replace(/\D/g,'');
   const email    = document.getElementById('f-email').value.trim();
+  const insta    = document.getElementById('f-insta').value.trim();
   const vendas   = document.getElementById('f-vendedores').value;
   const fat      = document.getElementById('f-faturamento').value;
 
@@ -124,6 +125,9 @@ function validateForm() {
   const emailRgx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRgx.test(email)) {
     showError('f-email', 'err-email', 'E-mail inválido.'); ok = false;
+  }
+  if (insta.replace(/^@/, '').length < 2) {
+    showError('f-insta', 'err-insta', 'Informe o Instagram da empresa.'); ok = false;
   }
   if (!vendas) {
     showError('f-vendedores', 'err-vendedores', 'Selecione uma opção.'); ok = false;
