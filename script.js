@@ -12,7 +12,7 @@ function openModal(e) {
   modalOverlay.classList.add('open');
   document.body.style.overflow = 'hidden';
   setTimeout(() => {
-    const first = modalBox.querySelector('input, select');
+    const first = document.getElementById('f-vendedores');
     if (first) first.focus();
   }, 350);
   // Meta Pixel: Ver conteúdo ao abrir o modal
@@ -24,18 +24,18 @@ function openModal(e) {
 function closeModal() {
   modalOverlay.classList.remove('open');
   document.body.style.overflow = '';
-  // Reseta estado do modal para poder reabrir limpo
   const form    = document.getElementById('modalForm');
   const success = document.getElementById('modalSuccess');
   if (form) {
     form.style.display = '';
     form.reset();
-    // Limpa erros de validação
     form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
     form.querySelectorAll('.form-error').forEach(el => el.textContent = '');
-    // Limpa @ do Instagram
-    const insta = document.getElementById('f-insta');
-    if (insta) insta.value = '';
+    // Reseta etapas
+    document.getElementById('formStep1').hidden = false;
+    document.getElementById('formStep2').hidden = true;
+    document.getElementById('stepDot1').className = 'step-dot active';
+    document.getElementById('stepDot2').className = 'step-dot';
   }
   if (success) success.classList.remove('show');
 }
@@ -54,8 +54,6 @@ document.addEventListener('keydown', e => {
 // MÁSCARAS
 // =====================
 const whatsInput = document.getElementById('f-whats');
-const instaInput = document.getElementById('f-insta');
-const emailInput = document.getElementById('f-email');
 
 // Máscara WhatsApp: (XX) XXXXX-XXXX
 whatsInput.addEventListener('input', function () {
@@ -70,19 +68,29 @@ whatsInput.addEventListener('input', function () {
   this.value = v;
 });
 
-// @ automático no Instagram
-instaInput.addEventListener('input', function () {
-  let v = this.value;
-  if (v.length > 0 && v[0] !== '@') {
-    this.value = '@' + v.replace(/@/g, '');
-  }
-  if (v === '') this.value = '';
+// =====================
+// NAVEGAÇÃO DE ETAPAS
+// =====================
+document.getElementById('btnStep1Next').addEventListener('click', () => {
+  const vendas = document.getElementById('f-vendedores').value;
+  const fat    = document.getElementById('f-faturamento').value;
+  let ok = true;
+  if (!vendas) { showError('f-vendedores', 'err-vendedores', 'Selecione uma opção.'); ok = false; }
+  if (!fat)    { showError('f-faturamento', 'err-faturamento', 'Selecione uma opção.'); ok = false; }
+  if (!ok) return;
+
+  document.getElementById('formStep1').hidden = true;
+  document.getElementById('formStep2').hidden = false;
+  document.getElementById('stepDot1').className = 'step-dot done';
+  document.getElementById('stepDot2').className = 'step-dot active';
+  document.getElementById('f-nome').focus();
 });
-instaInput.addEventListener('focus', function () {
-  if (this.value === '') this.value = '@';
-});
-instaInput.addEventListener('blur', function () {
-  if (this.value === '@') this.value = '';
+
+document.getElementById('btnStep2Back').addEventListener('click', () => {
+  document.getElementById('formStep2').hidden = true;
+  document.getElementById('formStep1').hidden = false;
+  document.getElementById('stepDot1').className = 'step-dot active';
+  document.getElementById('stepDot2').className = 'step-dot';
 });
 
 // =====================
@@ -102,19 +110,18 @@ function clearError(fieldId, errId) {
 }
 
 // Limpa erro ao digitar
-['f-nome','f-whats','f-email','f-insta','f-vendedores','f-faturamento'].forEach(id => {
+['f-nome','f-whats','f-email','f-vendedores','f-faturamento'].forEach(id => {
   const el = document.getElementById(id);
   if (el) el.addEventListener('input', () => clearError(id, 'err-' + id.replace('f-','')));
 });
 
 function validateForm() {
   let ok = true;
-  const nome     = document.getElementById('f-nome').value.trim();
-  const whats    = document.getElementById('f-whats').value.replace(/\D/g,'');
-  const email    = document.getElementById('f-email').value.trim();
-  const insta    = document.getElementById('f-insta').value.trim();
-  const vendas   = document.getElementById('f-vendedores').value;
-  const fat      = document.getElementById('f-faturamento').value;
+  const nome   = document.getElementById('f-nome').value.trim();
+  const whats  = document.getElementById('f-whats').value.replace(/\D/g,'');
+  const email  = document.getElementById('f-email').value.trim();
+  const vendas = document.getElementById('f-vendedores').value;
+  const fat    = document.getElementById('f-faturamento').value;
 
   if (nome.length < 3) {
     showError('f-nome', 'err-nome', 'Informe seu nome completo.'); ok = false;
@@ -122,12 +129,9 @@ function validateForm() {
   if (whats.length < 10) {
     showError('f-whats', 'err-whats', 'Número inválido. Use (XX) XXXXX-XXXX.'); ok = false;
   }
-  const emailRgx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRgx.test(email)) {
+  // E-mail opcional — valida apenas se preenchido
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     showError('f-email', 'err-email', 'E-mail inválido.'); ok = false;
-  }
-  if (insta.replace(/^@/, '').length < 2) {
-    showError('f-insta', 'err-insta', 'Informe o Instagram da empresa.'); ok = false;
   }
   if (!vendas) {
     showError('f-vendedores', 'err-vendedores', 'Selecione uma opção.'); ok = false;
@@ -157,6 +161,7 @@ function getUTMs() {
     utm_source:   p.get('utm_source')   || '',
     utm_medium:   p.get('utm_medium')   || '',
     utm_campaign: p.get('utm_campaign') || '',
+    utm_adset:    p.get('utm_adset')    || '',
     utm_content:  p.get('utm_content')  || '',
     utm_term:     p.get('utm_term')     || '',
     fbclid,
@@ -201,7 +206,6 @@ document.getElementById('modalForm').addEventListener('submit', async function (
     nome:        document.getElementById('f-nome').value.trim(),
     whatsapp:    document.getElementById('f-whats').value.trim(),
     email:       document.getElementById('f-email').value.trim(),
-    instagram:   document.getElementById('f-insta').value.trim(),
     vendedores,
     faturamento,
     qualificado: icp,
@@ -211,15 +215,17 @@ document.getElementById('modalForm').addEventListener('submit', async function (
 
   let waMsg, successTitle, successText;
 
+  const emailLine = payload.email ? `\nE-mail: ${payload.email}` : '';
+
   if (icp) {
     waMsg = encodeURIComponent(
-      `Olá! Quero meu diagnóstico gratuito.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}\nE-mail: ${payload.email}\nInstagram: ${payload.instagram}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}`
+      `Olá! Quero meu diagnóstico gratuito.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}${emailLine}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}`
     );
     successTitle = 'Recebemos seu contato!';
     successText  = 'Em breve nossa equipe vai entrar em contato pelo WhatsApp para agendar seu diagnóstico gratuito.';
   } else {
     waMsg = encodeURIComponent(
-      `Olá! Tenho interesse nas soluções da Lion Mídias para minha empresa.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}\nE-mail: ${payload.email}\nInstagram: ${payload.instagram}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}`
+      `Olá! Tenho interesse nas soluções da Lion Mídias.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}${emailLine}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}`
     );
     successTitle = 'Recebemos seu contato!';
     successText  = 'Nossa equipe vai entrar em contato em breve com a melhor solução para o momento da sua empresa.';
