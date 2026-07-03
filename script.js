@@ -190,6 +190,9 @@ document.getElementById('modalForm').addEventListener('submit', async function (
   btn.classList.add('loading');
   btn.disabled = true;
 
+  // Protocolo único de deduplicação — mesmo ID enviado ao Pixel e à CAPI
+  const eventId = 'lead_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+
   const vendedores  = document.getElementById('f-vendedores').value;
   const faturamento = document.getElementById('f-faturamento').value;
 
@@ -210,6 +213,8 @@ document.getElementById('modalForm').addEventListener('submit', async function (
     faturamento,
     qualificado: icp,
     motivo:      motivoICP,
+    event_id:    eventId,
+    page_url:    window.location.href,
     ...getUTMs(),
   };
 
@@ -250,7 +255,7 @@ document.getElementById('modalForm').addEventListener('submit', async function (
       fbq('track', 'Lead', {
         content_name: 'Diagnóstico Gratuito',
         content_category: 'Formulário',
-      });
+      }, { eventID: eventId });
     } else {
       fbq('trackCustom', 'LeadNaoQualificado', {
         content_name:     'Diagnóstico Gratuito',
