@@ -39,8 +39,10 @@ function closeModal() {
     // Reseta etapas
     document.getElementById('formStep1').hidden = false;
     document.getElementById('formStep2').hidden = true;
+    document.getElementById('formStep3').hidden = true;
     document.getElementById('stepDot1').className = 'step-dot active';
     document.getElementById('stepDot2').className = 'step-dot';
+    document.getElementById('stepDot3').className = 'step-dot';
   }
   if (success) success.classList.remove('show');
   const edu = document.getElementById('modalEducativo');
@@ -78,42 +80,62 @@ whatsInput.addEventListener('input', function () {
 // =====================
 // NAVEGAÇÃO DE ETAPAS
 // =====================
+
+// Etapa 1 → 2 (valida apenas os selects)
 document.getElementById('btnStep1Next').addEventListener('click', () => {
-  const vendas  = document.getElementById('f-vendedores').value;
-  const fat     = document.getElementById('f-faturamento').value;
-  const momento = document.querySelector('input[name="momento"]:checked')?.value;
+  const vendas = document.getElementById('f-vendedores').value;
+  const fat    = document.getElementById('f-faturamento').value;
   let ok = true;
-  if (!vendas)   { showError('f-vendedores', 'err-vendedores', 'Selecione uma opção.'); ok = false; }
-  if (!fat)      { showError('f-faturamento', 'err-faturamento', 'Selecione uma opção.'); ok = false; }
-  if (!momento)  { document.getElementById('err-momento').textContent = 'Selecione uma opção.'; ok = false; }
+  if (!vendas) { showError('f-vendedores', 'err-vendedores', 'Selecione uma opção.'); ok = false; }
+  if (!fat)    { showError('f-faturamento', 'err-faturamento', 'Selecione uma opção.'); ok = false; }
   if (!ok) return;
-
-  // Opção 3: quer tráfego → tela educativa, sem passo 2, sem POST
-  if (momento === 'quer-trafego') {
-    document.getElementById('modalForm').style.display = 'none';
-    document.getElementById('modalEducativo').classList.add('show');
-    if (typeof fbq === 'function') {
-      fbq('trackCustom', 'LeadNaoQualificado', {
-        content_name: 'Diagnóstico Gratuito',
-        motivo: 'quer-trafego',
-      });
-    }
-    return;
-  }
-
-  // Demais opções: avança para passo 2
   document.getElementById('formStep1').hidden = true;
   document.getElementById('formStep2').hidden = false;
   document.getElementById('stepDot1').className = 'step-dot done';
   document.getElementById('stepDot2').className = 'step-dot active';
-  document.getElementById('f-nome').focus();
 });
 
+// Etapa 2 → 1 (voltar)
 document.getElementById('btnStep2Back').addEventListener('click', () => {
   document.getElementById('formStep2').hidden = true;
   document.getElementById('formStep1').hidden = false;
   document.getElementById('stepDot1').className = 'step-dot active';
   document.getElementById('stepDot2').className = 'step-dot';
+});
+
+// Etapa 2: radio auto-avança ao selecionar
+document.querySelectorAll('input[name="momento"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    const val = radio.value;
+    if (val === 'quer-trafego') {
+      setTimeout(() => {
+        document.getElementById('modalForm').style.display = 'none';
+        document.getElementById('modalEducativo').classList.add('show');
+        if (typeof fbq === 'function') {
+          fbq('trackCustom', 'LeadNaoQualificado', {
+            content_name: 'Diagnóstico Gratuito',
+            motivo: 'quer-trafego',
+          });
+        }
+      }, 350);
+      return;
+    }
+    setTimeout(() => {
+      document.getElementById('formStep2').hidden = true;
+      document.getElementById('formStep3').hidden = false;
+      document.getElementById('stepDot2').className = 'step-dot done';
+      document.getElementById('stepDot3').className = 'step-dot active';
+      document.getElementById('f-nome').focus();
+    }, 400);
+  });
+});
+
+// Etapa 3 → 2 (voltar)
+document.getElementById('btnStep3Back').addEventListener('click', () => {
+  document.getElementById('formStep3').hidden = true;
+  document.getElementById('formStep2').hidden = false;
+  document.getElementById('stepDot2').className = 'step-dot active';
+  document.getElementById('stepDot3').className = 'step-dot';
 });
 
 // =====================
