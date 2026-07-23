@@ -979,6 +979,56 @@ ul  { list-style: none; }
 }
 .step-back:hover { color: var(--text); }
 .field-optional { font-size: 11px; color: #555; font-weight: 400; margin-left: 4px; }
+.field-hint { font-size: 12px; color: #555; margin-top: 5px; display: block; }
+
+/* ── MOMENTO — radio group ── */
+.momento-options { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.momento-opt {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #1a1a1a; border-radius: 10px;
+  cursor: pointer; user-select: none;
+  transition: border-color .2s, background .2s;
+}
+.momento-opt:hover { border-color: #2e2e2e; background: #0d0d0d; }
+.momento-opt input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+.momento-radio {
+  width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px;
+  border-radius: 50%; border: 1.5px solid #333;
+  transition: border-color .2s, background .2s, box-shadow .2s;
+  position: relative;
+}
+.momento-opt:has(input:checked) { border-color: var(--gold); background: rgba(201,168,76,.06); }
+.momento-opt input:checked + .momento-radio {
+  border-color: var(--gold); background: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,.15);
+}
+.momento-opt input:checked + .momento-radio::after {
+  content: ''; position: absolute; inset: 3px; border-radius: 50%; background: #060606;
+}
+.momento-text { font-size: 14px; color: var(--text); line-height: 1.45; }
+
+/* ── MODAL EDUCATIVO ── */
+.modal-educativo {
+  display: none; flex-direction: column; align-items: center;
+  text-align: center; padding: 24px 0 8px; gap: 14px;
+}
+.modal-educativo.show { display: flex; }
+.edu-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.2);
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-educativo h3 { font-size: 19px; font-weight: 700; color: var(--text); }
+.modal-educativo p { color: var(--text-sub); font-size: 14px; line-height: 1.65; max-width: 320px; }
+.btn-edu-wa {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #25D366; color: #fff;
+  font-family: inherit; font-weight: 600; font-size: 14px;
+  padding: 12px 20px; border-radius: 999px; text-decoration: none;
+  margin-top: 4px; transition: opacity .2s;
+}
+.btn-edu-wa:hover { opacity: .85; }
 .footer-copy  { font-size: 12px; color: var(--text-muted); }
 .footer-sub   { font-size: 11px; color: #444; }
 .footer-links { display: flex; gap: 24px; margin-top: 6px; }

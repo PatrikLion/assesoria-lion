@@ -541,8 +541,8 @@
       <!-- Cabeçalho -->
       <div class="modal-header">
         <div>
-          <h2 class="modal-title" id="modalTitle">Diagnóstico Gratuito</h2>
-          <p class="modal-subtitle">2 perguntas rápidas e nossa equipe entra em contato pelo WhatsApp.</p>
+          <h2 class="modal-title" id="modalTitle">Aplicação para Diagnóstico Gratuito</h2>
+          <p class="modal-subtitle">A Lion não gerencia anúncios — estruturamos o processo comercial de quem já investe em marketing. 3 perguntas rápidas e, havendo fit, nossa equipe chama no WhatsApp.</p>
         </div>
         <button class="modal-close" onclick="closeModal()" aria-label="Fechar">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -606,6 +606,33 @@
             <span class="form-error" id="err-faturamento"></span>
           </div>
 
+          <div class="form-field">
+            <label class="field-label">Qual dessas frases descreve melhor o seu momento hoje?</label>
+            <div class="momento-options">
+              <label class="momento-opt">
+                <input type="radio" name="momento" value="anuncio-sem-venda">
+                <span class="momento-radio" aria-hidden="true"></span>
+                <span class="momento-text">Já invisto em anúncios, mas as vendas não acompanham</span>
+              </label>
+              <label class="momento-opt">
+                <input type="radio" name="momento" value="time-sem-processo">
+                <span class="momento-radio" aria-hidden="true"></span>
+                <span class="momento-text">Tenho vendedores, mas cada um vende do seu jeito, sem processo</span>
+              </label>
+              <label class="momento-opt">
+                <input type="radio" name="momento" value="quer-trafego">
+                <span class="momento-radio" aria-hidden="true"></span>
+                <span class="momento-text">Quero alguém para criar e gerenciar meus anúncios</span>
+              </label>
+              <label class="momento-opt">
+                <input type="radio" name="momento" value="sem-marketing">
+                <span class="momento-radio" aria-hidden="true"></span>
+                <span class="momento-text">Ainda não invisto em marketing e quero começar</span>
+              </label>
+            </div>
+            <span class="form-error" id="err-momento"></span>
+          </div>
+
           <button type="button" class="modal-submit" id="btnStep1Next">
             <span class="submit-text">Continuar</span>
             <span class="btn-arrow" aria-hidden="true">
@@ -644,6 +671,13 @@
             <span class="form-error" id="err-email"></span>
           </div>
 
+          <div class="form-field">
+            <label for="f-insta">@ do Instagram da empresa</label>
+            <input type="text" id="f-insta" name="instagram" placeholder="@suaempresa" autocomplete="off">
+            <span class="field-hint">Analisamos sua presença e seus anúncios antes do diagnóstico.</span>
+            <span class="form-error" id="err-insta"></span>
+          </div>
+
           <button type="submit" class="modal-submit" id="modalSubmitBtn">
             <span class="submit-text">Quero meu Diagnóstico Gratuito</span>
             <span class="submit-loading" aria-hidden="true">
@@ -666,6 +700,23 @@
         </div>
         <h3>Recebemos seu contato!</h3>
         <p>Em breve nossa equipe vai entrar em contato pelo WhatsApp para agendar seu diagnóstico gratuito.</p>
+        <button class="modal-close-success" onclick="closeModal()">Fechar</button>
+      </div>
+
+      <!-- Tela educativa — quem quer gestão de anúncios -->
+      <div class="modal-educativo" id="modalEducativo" aria-live="polite">
+        <div class="edu-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M14 6v10M14 20v2" stroke="#C9A84C" stroke-width="2.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Valeu pela transparência!</h3>
+        <p>A Lion não gerencia anúncios. Nosso trabalho começa onde o anúncio termina — transformando os leads que você já gera em contratos fechados.</p>
+        <p>Se um dia o seu gargalo for esse, a porta está aberta.</p>
+        <a href="https://wa.me/556281547209?text=Vim%20pelo%20site%20%E2%80%94%20quero%20ajuda%20com%20gest%C3%A3o%20de%20an%C3%BAncios"
+           class="btn-edu-wa" target="_blank" rel="noopener">
+          Precisa de ajuda com tráfego? Fale no WhatsApp
+        </a>
         <button class="modal-close-success" onclick="closeModal()">Fechar</button>
       </div>
 

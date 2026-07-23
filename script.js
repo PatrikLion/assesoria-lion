@@ -31,6 +31,11 @@ function closeModal() {
     form.reset();
     form.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
     form.querySelectorAll('.form-error').forEach(el => el.textContent = '');
+    // Reseta radio buttons
+    form.querySelectorAll('input[name="momento"]').forEach(r => r.checked = false);
+    // Reseta instagram
+    const insta = document.getElementById('f-insta');
+    if (insta) insta.value = '';
     // Reseta etapas
     document.getElementById('formStep1').hidden = false;
     document.getElementById('formStep2').hidden = true;
@@ -38,6 +43,8 @@ function closeModal() {
     document.getElementById('stepDot2').className = 'step-dot';
   }
   if (success) success.classList.remove('show');
+  const edu = document.getElementById('modalEducativo');
+  if (edu) edu.classList.remove('show');
 }
 
 // Fecha ao clicar fora do box
@@ -72,13 +79,29 @@ whatsInput.addEventListener('input', function () {
 // NAVEGAÇÃO DE ETAPAS
 // =====================
 document.getElementById('btnStep1Next').addEventListener('click', () => {
-  const vendas = document.getElementById('f-vendedores').value;
-  const fat    = document.getElementById('f-faturamento').value;
+  const vendas  = document.getElementById('f-vendedores').value;
+  const fat     = document.getElementById('f-faturamento').value;
+  const momento = document.querySelector('input[name="momento"]:checked')?.value;
   let ok = true;
-  if (!vendas) { showError('f-vendedores', 'err-vendedores', 'Selecione uma opção.'); ok = false; }
-  if (!fat)    { showError('f-faturamento', 'err-faturamento', 'Selecione uma opção.'); ok = false; }
+  if (!vendas)   { showError('f-vendedores', 'err-vendedores', 'Selecione uma opção.'); ok = false; }
+  if (!fat)      { showError('f-faturamento', 'err-faturamento', 'Selecione uma opção.'); ok = false; }
+  if (!momento)  { document.getElementById('err-momento').textContent = 'Selecione uma opção.'; ok = false; }
   if (!ok) return;
 
+  // Opção 3: quer tráfego → tela educativa, sem passo 2, sem POST
+  if (momento === 'quer-trafego') {
+    document.getElementById('modalForm').style.display = 'none';
+    document.getElementById('modalEducativo').classList.add('show');
+    if (typeof fbq === 'function') {
+      fbq('trackCustom', 'LeadNaoQualificado', {
+        content_name: 'Diagnóstico Gratuito',
+        motivo: 'quer-trafego',
+      });
+    }
+    return;
+  }
+
+  // Demais opções: avança para passo 2
   document.getElementById('formStep1').hidden = true;
   document.getElementById('formStep2').hidden = false;
   document.getElementById('stepDot1').className = 'step-dot done';
@@ -109,10 +132,32 @@ function clearError(fieldId, errId) {
   if (err) err.textContent = '';
 }
 
-// Limpa erro ao digitar
-['f-nome','f-whats','f-email','f-vendedores','f-faturamento'].forEach(id => {
+// @ automático no Instagram
+const instaInput = document.getElementById('f-insta');
+if (instaInput) {
+  instaInput.addEventListener('input', function () {
+    if (this.value.length > 0 && this.value[0] !== '@') {
+      this.value = '@' + this.value.replace(/@/g, '');
+    }
+    if (this.value === '') this.value = '';
+  });
+  instaInput.addEventListener('focus', function () {
+    if (this.value === '') this.value = '@';
+  });
+  instaInput.addEventListener('blur', function () {
+    if (this.value === '@') this.value = '';
+  });
+}
+
+// Limpa erro ao digitar/selecionar
+['f-nome','f-whats','f-email','f-insta','f-vendedores','f-faturamento'].forEach(id => {
   const el = document.getElementById(id);
   if (el) el.addEventListener('input', () => clearError(id, 'err-' + id.replace('f-','')));
+});
+document.querySelectorAll('input[name="momento"]').forEach(r => {
+  r.addEventListener('change', () => {
+    document.getElementById('err-momento').textContent = '';
+  });
 });
 
 function validateForm() {
@@ -120,6 +165,7 @@ function validateForm() {
   const nome   = document.getElementById('f-nome').value.trim();
   const whats  = document.getElementById('f-whats').value.replace(/\D/g,'');
   const email  = document.getElementById('f-email').value.trim();
+  const insta  = document.getElementById('f-insta').value.trim();
   const vendas = document.getElementById('f-vendedores').value;
   const fat    = document.getElementById('f-faturamento').value;
 
@@ -129,9 +175,11 @@ function validateForm() {
   if (whats.length < 10) {
     showError('f-whats', 'err-whats', 'Número inválido. Use (XX) XXXXX-XXXX.'); ok = false;
   }
-  // E-mail opcional — valida apenas se preenchido
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     showError('f-email', 'err-email', 'E-mail inválido.'); ok = false;
+  }
+  if (insta.replace(/^@/, '').length < 2) {
+    showError('f-insta', 'err-insta', 'Informe o Instagram da empresa.'); ok = false;
   }
   if (!vendas) {
     showError('f-vendedores', 'err-vendedores', 'Selecione uma opção.'); ok = false;
@@ -195,22 +243,34 @@ document.getElementById('modalForm').addEventListener('submit', async function (
 
   const vendedores  = document.getElementById('f-vendedores').value;
   const faturamento = document.getElementById('f-faturamento').value;
+  const momento     = document.querySelector('input[name="momento"]:checked')?.value || '';
 
-  // Qualificação ICP: desqualifica se sem equipe OU faturamento baixo
-  const icp = vendedores !== 'apenas-eu' && faturamento !== 'menos-50k';
+  // Qualificação ICP: faturamento OK + tem equipe + momento alinhado
+  const icp =
+    vendedores  !== 'apenas-eu' &&
+    faturamento !== 'menos-50k' &&
+    (momento === 'anuncio-sem-venda' || momento === 'time-sem-processo');
 
-  const motivoICP = !icp
-    ? (vendedores === 'apenas-eu' && faturamento === 'menos-50k'
-        ? 'sem-equipe-e-faturamento-baixo'
-        : vendedores === 'apenas-eu' ? 'sem-equipe' : 'faturamento-baixo')
-    : null;
+  let motivoICP = null;
+  if (!icp) {
+    const razoes = [];
+    if (vendedores === 'apenas-eu')   razoes.push('sem-equipe');
+    if (faturamento === 'menos-50k')  razoes.push('faturamento-baixo');
+    if (momento === 'sem-marketing')  razoes.push('sem-marketing');
+    if (momento !== 'anuncio-sem-venda' && momento !== 'time-sem-processo' && momento !== 'sem-marketing') {
+      razoes.push('momento-desalinhado');
+    }
+    motivoICP = razoes.join('+') || 'desconhecido';
+  }
 
   const payload = {
     nome:        document.getElementById('f-nome').value.trim(),
     whatsapp:    document.getElementById('f-whats').value.trim(),
     email:       document.getElementById('f-email').value.trim(),
+    instagram:   document.getElementById('f-insta').value.trim(),
     vendedores,
     faturamento,
+    momento,
     qualificado: icp,
     motivo:      motivoICP,
     event_id:    eventId,
@@ -220,17 +280,18 @@ document.getElementById('modalForm').addEventListener('submit', async function (
 
   let waMsg, successTitle, successText;
 
-  const emailLine = payload.email ? `\nE-mail: ${payload.email}` : '';
+  const emailLine = payload.email     ? `\nE-mail: ${payload.email}`         : '';
+  const instaLine = payload.instagram ? `\nInstagram: ${payload.instagram}`   : '';
 
   if (icp) {
     waMsg = encodeURIComponent(
-      `Olá! Quero meu diagnóstico gratuito.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}${emailLine}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}`
+      `Olá! Quero meu diagnóstico gratuito.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}${emailLine}${instaLine}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}\nMomento: ${payload.momento}`
     );
     successTitle = 'Recebemos seu contato!';
     successText  = 'Em breve nossa equipe vai entrar em contato pelo WhatsApp para agendar seu diagnóstico gratuito.';
   } else {
     waMsg = encodeURIComponent(
-      `Olá! Tenho interesse nas soluções da Lion Mídias.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}${emailLine}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}`
+      `Olá! Tenho interesse nas soluções da Lion Mídias.\n\nNome: ${payload.nome}\nWhatsApp: ${payload.whatsapp}${emailLine}${instaLine}\nVendedores: ${payload.vendedores}\nFaturamento: ${payload.faturamento}\nMomento: ${payload.momento}`
     );
     successTitle = 'Recebemos seu contato!';
     successText  = 'Nossa equipe vai entrar em contato em breve com a melhor solução para o momento da sua empresa.';
