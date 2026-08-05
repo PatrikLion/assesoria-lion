@@ -66,7 +66,10 @@ const whatsInput = document.getElementById('f-whats');
 
 // Máscara WhatsApp: (XX) XXXXX-XXXX
 whatsInput.addEventListener('input', function () {
-  let v = this.value.replace(/\D/g, '').slice(0, 11);
+  let v = this.value.replace(/\D/g, '');
+  // DDD 55 não existe no Brasil — cliente digitou o código do país por engano
+  if (v.startsWith('55') && v.length >= 12) v = v.slice(2);
+  v = v.slice(0, 11);
   if (v.length > 10) {
     v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
   } else if (v.length > 6) {
